@@ -1,0 +1,22 @@
+{
+  "name": "tiketkarya",
+  "version": "1.0.0",
+  "description": "TiketKarya - Creative Workshop Booking Platform",
+  "scripts": {
+    "start": "concurrently \"cd backend && npm start\" \"cd frontend && npm start\"",
+    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\"",
+    "install-deps": "concurrently \"cd backend && npm install\" \"cd frontend && npm install\"",
+    "setup": "npm run install-deps && cd backend && npm run setup-db"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.1"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "node-cron": "^4.1.0"
+  },
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

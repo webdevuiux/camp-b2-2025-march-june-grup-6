@@ -1,0 +1,94 @@
+{
+  "Jawa Barat": [
+    {
+      "city": "Kabupaten Bandung",
+      "type": "Kabupaten",
+      "lat": -7.0015,
+      "lng": 107.6565
+    },
+    {
+      "city": "Kota Bandung",
+      "type": "Kota",
+      "lat": -6.9147,
+      "lng": 107.6098
+    },
+    {
+      "city": "Kota Bekasi",
+      "type": "Kota",
+      "lat": -6.2383,
+      "lng": 106.9756
+    },
+    {
+      "city": "Kabupaten Bogor",
+      "type": "Kabupaten",
+      "lat": -6.595,
+      "lng": 106.8167
+    },
+    {
+      "city": "Kota Depok",
+      "type": "Kota",
+      "lat": -6.4025,
+      "lng": 106.7942
+    }
+  ],
+  "Jawa Timur": [
+    {
+      "city": "Kota Surabaya",
+      "type": "Kota",
+      "lat": -7.2504,
+      "lng": 112.7688
+    },
+    {
+      "city": "Kota Malang",
+      "type": "Kota",
+      "lat": -7.9666,
+      "lng": 112.6326
+    },
+    {
+      "city": "Kabupaten Kediri",
+      "type": "Kabupaten",
+      "lat": -7.8169,
+      "lng": 112.0114
+    }
+  ],
+  "DKI Jakarta": [
+    {
+      "city": "Jakarta Selatan",
+      "type": "Kota",
+      "lat": -6.2615,
+      "lng": 106.8106
+    },
+    {
+      "city": "Jakarta Barat",
+      "type": "Kota",
+      "lat": -6.1767,
+      "lng": 106.7558
+    },
+    {
+      "city": "Jakarta Timur",
+      "type": "Kota",
+      "lat": -6.2251,
+      "lng": 106.9004
+    },
+    {
+      "city": "Jakarta Utara",
+      "type": "Kota",
+      "lat": -6.1214,
+      "lng": 106.7741
+    },
+    {
+      "city": "Jakarta Pusat",
+      "type": "Kota",
+      "lat": -6.1865,
+      "lng": 106.8345
+    }
+  ],
+  "DI Yogyakarta": [
+    {
+      "city": "Kota Yogyakarta",
+      "type": "Kota",
+      "lat": -7.7956,
+      "lng": 110.3695
+    }
+  ]
+}
