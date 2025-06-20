@@ -4,7 +4,6 @@ import NotificationPopup from "../notification/NotificationPopup1";
 import NotificationPopupForum from "../notification/NotificationPopupForum";
 
 const NotificationCard1 = ({ notification, onSeeMore }) => {
-  // Memproses message untuk menghapus waktu dan zona waktu
   const processMessage = (msg) => {
     const dateMatch = msg.match(/on\s+(.+?)(?=\s+\d{2}:\d{2}:\d{2}\s+GMT)/);
     if (dateMatch && dateMatch[1]) {
@@ -18,16 +17,15 @@ const NotificationCard1 = ({ notification, onSeeMore }) => {
 
   const processedMessage = processMessage(notification.message);
 
-  // Hanya tampilkan jika data workshop tersedia untuk purchase_confirmation
   if (
     notification.type === "purchase_confirmation" &&
     (!notification.workshop_title || !notification.workshop_date)
   ) {
-    return null; // Sembunyikan jika data tidak lengkap
+    return null;
   }
 
   return (
-    <div className="bg-[#FEE4C4] p-4 flex gap-4 w-full">
+    <div className="bg-[#FEE4C4] w-full overflow-hidden flex flex-col md:flex-row items-center mb-4">
       <div className="relative w-12 h-12 shrink-0">
         <img
           src="./img/frame1.png"
@@ -35,12 +33,12 @@ const NotificationCard1 = ({ notification, onSeeMore }) => {
           className="w-full h-full object-cover"
         />
       </div>
-      <div className="flex justify-between items-start w-full gap-4">
-        <div className="flex-1">
-          <h3 className="font-bold text-lg">
+      <div className="flex-1 px-3 py-3 flex flex-col justify-between">
+        <div>
+          <h3 className="font-bold text-lg font-robotoMono sm:text-xl">
             {processedMessage.split("starts")[0] || processedMessage}
           </h3>
-          <p className="text-sm text-gray-800 mt-1">
+          <p className="text-sm text-gray-700 mt-1 line-clamp-2 sm:text-base">
             {notification.type === "purchase_confirmation" && (
               <span>Thanks for signing up! Your spot is confirmed.</span>
             )}
@@ -49,8 +47,8 @@ const NotificationCard1 = ({ notification, onSeeMore }) => {
             )}
           </p>
         </div>
-        <div className="flex flex-col items-end min-w-fit text-sm text-gray-700 whitespace-nowrap">
-          <p className="mb-8">
+        <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-600 sm:text-base">
+          <p className="mb-2 md:mb-0">
             {new Date(notification.created_at).toLocaleString("en-US", {
               month: "short",
               day: "numeric",
@@ -61,7 +59,7 @@ const NotificationCard1 = ({ notification, onSeeMore }) => {
           </p>
           <button
             onClick={() => onSeeMore(notification)}
-            className="text-black font-semibold underline cursor-pointer"
+            className="text-sm font-semibold text-black underline sm:text-base"
           >
             See More
           </button>
@@ -72,7 +70,7 @@ const NotificationCard1 = ({ notification, onSeeMore }) => {
 };
 
 const NotificationCard2 = ({ notification, onSeeMore }) => (
-  <div className="bg-[#FCEDDA] p-4 flex gap-4 w-full">
+  <div className="bg-[#FCEDDA] w-full overflow-hidden flex flex-col md:flex-row mb-4">
     <div className="relative w-12 h-12 shrink-0">
       <img
         src="./img/newforum.png"
@@ -80,13 +78,17 @@ const NotificationCard2 = ({ notification, onSeeMore }) => (
         className="w-full h-full object-cover"
       />
     </div>
-    <div className="flex justify-between items-start w-full gap-4">
-      <div className="flex-1">
-        <h3 className="font-bold text-lg">New Forum Reply</h3>
-        <p className="text-sm text-gray-800 mt-1">{notification.message}</p>
+    <div className="flex-1 px-3 py-3 flex flex-col justify-between">
+      <div>
+        <h3 className="font-bold text-lg font-robotoMono sm:text-xl">
+          New Forum Reply
+        </h3>
+        <p className="text-sm text-gray-700 mt-1 line-clamp-2 sm:text-base">
+          {notification.message}
+        </p>
       </div>
-      <div className="flex flex-col items-end text-sm text-gray-700 whitespace-nowrap">
-        <p className="mb-8">
+      <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-600 sm:text-base">
+        <p className="mb-2 md:mb-0">
           {new Date(notification.created_at).toLocaleString("en-US", {
             month: "short",
             day: "numeric",
@@ -97,7 +99,7 @@ const NotificationCard2 = ({ notification, onSeeMore }) => (
         </p>
         <button
           onClick={() => onSeeMore(notification)}
-          className="text-black font-semibold underline cursor-pointer"
+          className="text-sm font-semibold text-black underline sm:text-base"
         >
           See More
         </button>
@@ -107,7 +109,7 @@ const NotificationCard2 = ({ notification, onSeeMore }) => (
 );
 
 const NotificationCard3 = ({ notification }) => (
-  <div className="bg-[#FEE4C4] p-4 flex gap-4 w-full">
+  <div className="bg-[#FEE4C4] w-full overflow-hidden flex flex-col md:flex-row items-center mb-4">
     <div className="relative w-12 h-12 shrink-0">
       <img
         src="./img/frame2.png"
@@ -115,13 +117,17 @@ const NotificationCard3 = ({ notification }) => (
         className="w-full h-full object-cover"
       />
     </div>
-    <div className="flex justify-between items-start w-full gap-4">
-      <div className="flex-1">
-        <h3 className="font-bold text-lg">Workshop Reminder (1 day before)</h3>
-        <p className="text-sm text-gray-800 mt-1">{notification.message}</p>
+    <div className="flex-1 px-3 py-3 flex flex-col justify-between">
+      <div>
+        <h3 className="font-bold text-lg font-robotoMono sm:text-xl">
+          Workshop Reminder (1 day before)
+        </h3>
+        <p className="text-sm text-gray-700 mt-1 line-clamp-2 sm:text-base">
+          {notification.message}
+        </p>
       </div>
-      <div className="flex flex-col items-end text-sm text-gray-700 whitespace-nowrap">
-        <p className="mb-8">
+      <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-600 sm:text-base">
+        <p className="mb-2 md:mb-0">
           {new Date(notification.created_at).toLocaleString("en-US", {
             month: "short",
             day: "numeric",
@@ -130,7 +136,10 @@ const NotificationCard3 = ({ notification }) => (
             minute: "2-digit",
           })}
         </p>
-        <a href="#" className="text-black font-semibold underline">
+        <a
+          href="#"
+          className="text-sm font-semibold text-black underline sm:text-base"
+        >
           See More
         </a>
       </div>
@@ -139,7 +148,7 @@ const NotificationCard3 = ({ notification }) => (
 );
 
 const NotificationCard4 = ({ notification }) => (
-  <div className="bg-[#FCEDDA] p-4 flex gap-4 w-full">
+  <div className="bg-[#FCEDDA] w-full overflow-hidden flex flex-col md:flex-row mb-4">
     <div className="relative w-12 h-12 shrink-0">
       <img
         src="./img/draft.png"
@@ -147,15 +156,17 @@ const NotificationCard4 = ({ notification }) => (
         className="w-full h-full object-cover"
       />
     </div>
-    <div className="flex justify-between items-start w-full gap-4">
-      <div className="flex-1">
-        <h3 className="font-bold text-lg">Draft Saved</h3>
-        <p className="text-sm text-gray-800 mt-1">
+    <div className="flex-1 px-3 py-3 flex flex-col justify-between">
+      <div>
+        <h3 className="font-bold text-lg font-robotoMono sm:text-xl">
+          Draft Saved
+        </h3>
+        <p className="text-sm text-gray-700 mt-1 line-clamp-2 sm:text-base">
           Your workshop listing draft is saved.
         </p>
       </div>
-      <div className="flex flex-col items-end text-sm text-gray-700 whitespace-nowrap">
-        <p className="mb-8">
+      <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-600 sm:text-base">
+        <p className="mb-2 md:mb-0">
           {new Date(notification.created_at).toLocaleString("en-US", {
             month: "short",
             day: "numeric",
@@ -164,7 +175,10 @@ const NotificationCard4 = ({ notification }) => (
             minute: "2-digit",
           })}
         </p>
-        <a href="#" className="text-black font-semibold underline">
+        <a
+          href="#"
+          className="text-sm font-semibold text-black underline sm:text-base"
+        >
           See More
         </a>
       </div>
@@ -173,7 +187,7 @@ const NotificationCard4 = ({ notification }) => (
 );
 
 const NotificationCard5 = ({ notification }) => (
-  <div className="bg-[#FEE4C4] p-4 flex gap-4 w-full">
+  <div className="bg-[#FEE4C4] w-full overflow-hidden flex flex-col md:flex-row items-center mb-4">
     <div className="relative w-12 h-12 shrink-0">
       <img
         src="./img/frame1.png"
@@ -181,13 +195,17 @@ const NotificationCard5 = ({ notification }) => (
         className="w-full h-full object-cover"
       />
     </div>
-    <div className="flex justify-between items-start w-full gap-4">
-      <div className="flex-1">
-        <h3 className="font-bold text-lg">Ticket Purchase Confirmation</h3>
-        <p className="text-sm text-gray-800 mt-1">{notification.message}</p>
+    <div className="flex-1 px-3 py-3 flex flex-col justify-between">
+      <div>
+        <h3 className="font-bold text-lg font-robotoMono sm:text-xl">
+          Ticket Purchase Confirmation
+        </h3>
+        <p className="text-sm text-gray-700 mt-1 line-clamp-2 sm:text-base">
+          {notification.message}
+        </p>
       </div>
-      <div className="flex flex-col items-end text-sm text-gray-700 whitespace-nowrap">
-        <p className="mb-8">
+      <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-600 sm:text-base">
+        <p className="mb-2 md:mb-0">
           {new Date(notification.created_at).toLocaleString("en-US", {
             month: "short",
             day: "numeric",
@@ -196,7 +214,10 @@ const NotificationCard5 = ({ notification }) => (
             minute: "2-digit",
           })}
         </p>
-        <a href="#" className="text-black font-semibold underline">
+        <a
+          href="#"
+          className="text-sm font-semibold text-black underline sm:text-base"
+        >
           See More
         </a>
       </div>
@@ -205,7 +226,7 @@ const NotificationCard5 = ({ notification }) => (
 );
 
 const NotificationCard6 = ({ notification, onSeeMoreForum }) => (
-  <div className="bg-[#FCEDDA] p-4 flex gap-4 w-full">
+  <div className="bg-[#FCEDDA] w-full overflow-hidden flex flex-col md:flex-row mb-4">
     <div className="relative w-12 h-12 shrink-0">
       <img
         src="./img/newforum.png"
@@ -213,13 +234,17 @@ const NotificationCard6 = ({ notification, onSeeMoreForum }) => (
         className="w-full h-full object-cover"
       />
     </div>
-    <div className="flex justify-between items-start w-full gap-4">
-      <div className="flex-1">
-        <h3 className="font-bold text-lg">New Forum Reply</h3>
-        <p className="text-sm text-gray-800 mt-1">{notification.message}</p>
+    <div className="flex-1 px-3 py-3 flex flex-col justify-between">
+      <div>
+        <h3 className="font-bold text-lg font-robotoMono sm:text-xl">
+          New Forum Reply
+        </h3>
+        <p className="text-sm text-gray-700 mt-1 line-clamp-2 sm:text-base">
+          {notification.message}
+        </p>
       </div>
-      <div className="flex flex-col items-end text-sm text-gray-700 whitespace-nowrap">
-        <p className="mb-8">
+      <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-600 sm:text-base">
+        <p className="mb-2 md:mb-0">
           {new Date(notification.created_at).toLocaleString("en-US", {
             month: "short",
             day: "numeric",
@@ -230,7 +255,7 @@ const NotificationCard6 = ({ notification, onSeeMoreForum }) => (
         </p>
         <button
           onClick={() => onSeeMoreForum(notification)}
-          className="text-black font-semibold underline cursor-pointer"
+          className="text-sm font-semibold text-black underline sm:text-base"
         >
           See More
         </button>
@@ -244,7 +269,7 @@ const UnseenNotification = ({
   onSeeMoreWorkshop,
   onSeeMoreForum,
 }) => (
-  <div className="space-y-2">
+  <div className="space-y-6">
     {notifications.map((notification) =>
       notification.type === "workshop_reminder" ||
       (notification.type === "purchase_confirmation" &&
@@ -267,7 +292,7 @@ const UnseenNotification = ({
 );
 
 const SeenNotification = ({ notifications, onSeeMoreForum }) => (
-  <div className="space-y-2">
+  <div className="space-y-6">
     {notifications.map((notification) =>
       notification.type === "workshop_reminder" ? (
         <NotificationCard3 key={notification.id} notification={notification} />
@@ -279,7 +304,7 @@ const SeenNotification = ({ notifications, onSeeMoreForum }) => (
         <NotificationCard6
           key={notification.id}
           notification={notification}
-          onSeeMoreForum={onSeeMoreForum} // Gunakan onSeeMoreForum yang konsisten
+          onSeeMoreForum={onSeeMoreForum}
         />
       ) : (
         <NotificationCard4 key={notification.id} notification={notification} />
@@ -312,7 +337,7 @@ const Notification = () => {
     };
 
     fetchNotifications();
-    const interval = setInterval(fetchNotifications, 30000); // Polling setiap 30 detik
+    const interval = setInterval(fetchNotifications, 30000);
     return () => clearInterval(interval);
   }, []);
 
@@ -326,7 +351,6 @@ const Notification = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      // Perbarui state lokal setelah menandai sebagai seen
       setNotifications((prevNotifications) =>
         prevNotifications.map((n) =>
           n.id === notificationId ? { ...n, is_seen: true } : n
@@ -338,9 +362,8 @@ const Notification = () => {
   };
 
   const handleSeeMoreWorkshop = async (notification) => {
-    // console.log("Selected notification for workshop:", notification); // Debug log
     if (!notification.is_seen) {
-      await markNotificationAsSeen(notification.id); 
+      await markNotificationAsSeen(notification.id);
     }
     setSelectedNotification(notification);
     setShowPopup(true);
@@ -352,9 +375,8 @@ const Notification = () => {
   };
 
   const handleSeeMoreForum = async (notification) => {
-    // console.log("Selected notification for forum:", notification); // Debug log
     if (!notification.is_seen) {
-      await markNotificationAsSeen(notification.id); 
+      await markNotificationAsSeen(notification.id);
     }
     setSelectedNotification(notification);
     setShowForumPopup(true);
@@ -369,11 +391,11 @@ const Notification = () => {
   const seenNotifications = notifications.filter((n) => n.is_seen);
 
   return (
-    <div className="w-full max-w-4xl mx-auto mt-10 relative">
-      <div className="mb-4 flex space-x-8">
+    <div className="relative w-full ml-[-15px] mt-4 px-4">
+      <div className="flex space-x-8 border-black mt-12 mb-2">
         <button
           onClick={() => setTab("unseen")}
-          className={`font-semibold border-b-2 ${
+          className={`pb-2 font-semibold border-b-2 ${
             tab === "unseen" ? "border-black" : "border-transparent"
           }`}
         >
@@ -381,7 +403,7 @@ const Notification = () => {
         </button>
         <button
           onClick={() => setTab("seen")}
-          className={`font-semibold border-b-2 ${
+          className={`pb-2 font-semibold border-b-2 ${
             tab === "seen" ? "border-black" : "border-transparent"
           }`}
         >
@@ -390,17 +412,44 @@ const Notification = () => {
       </div>
 
       {tab === "unseen" && (
-        <UnseenNotification
-          notifications={unseenNotifications}
-          onSeeMoreWorkshop={handleSeeMoreWorkshop}
-          onSeeMoreForum={handleSeeMoreForum}
-        />
+        <div className="space-y-6">
+          {unseenNotifications.length === 0 ? (
+            <div className="text-center mt-20">
+              <p className="font-semibold text-lg">
+                You don’t have any unseen notifications yet.
+              </p>
+              <p className="text-md mt-2">
+                Check back later for new notifications!
+              </p>
+            </div>
+          ) : (
+            <UnseenNotification
+              notifications={unseenNotifications}
+              onSeeMoreWorkshop={handleSeeMoreWorkshop}
+              onSeeMoreForum={handleSeeMoreForum}
+            />
+          )}
+        </div>
       )}
+
       {tab === "seen" && (
-        <SeenNotification
-          notifications={seenNotifications}
-          onSeeMoreForum={handleSeeMoreForum} 
-        />
+        <div className="space-y-6">
+          {seenNotifications.length === 0 ? (
+            <div className="text-center mt-20">
+              <p className="font-semibold text-lg">
+                You don’t have any seen notifications yet.
+              </p>
+              <p className="text-md mt-2">
+                Check back later for new notifications!
+              </p>
+            </div>
+          ) : (
+            <SeenNotification
+              notifications={seenNotifications}
+              onSeeMoreForum={handleSeeMoreForum}
+            />
+          )}
+        </div>
       )}
 
       {showPopup && selectedNotification && (

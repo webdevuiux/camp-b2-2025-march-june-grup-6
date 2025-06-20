@@ -99,11 +99,11 @@ const ArticleDetails = () => {
         {/* Comment Section (KODE ASLI ANDA) */}
         <div className="mt-6">
           <div className="flex items-center mb-4">
-            {/* Ikon dan points */}
+         
             <span className="flex items-center gap-2 px-3 py-1 mr-4 bg-orange-500 text-gray-100 font-semibold rounded">
               +43 XPoints
             </span>
-            {/* Title */}
+         
             <h2 className="text-lg font-semibold">
               Leave a reply
             </h2>

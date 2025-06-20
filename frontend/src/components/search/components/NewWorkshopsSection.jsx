@@ -86,29 +86,32 @@ const NewWorkshopsSection = ({
   };
 
   return (
-    <section className={`${className}`}>
-      <h2 className="text-black text-4xl font-bold ml-[90px] mt-10 max-md:max-w-full">
+    <section className={`${className} max-md:px-2.5`}>
+      <h2 className="text-black text-4xl font-bold ml-[90px] mt-10 max-md:max-w-full max-md:ml-2.5 max-md:text-2xl">
         {title}
       </h2>
-      <div className="flex w-full max-w-[1252px] items-center gap-6 justify-between flex-wrap mt-[38px] max-md:max-w-full">
+      <div className="flex w-full max-w-[1252px] items-center gap-6 justify-start flex-nowrap overflow-x-auto scroll-smooth max-md:px-2.5">
         <button
           onClick={scrollLeft}
           aria-label="Scroll left"
-          className="cursor-pointer hover:opacity-75 transition-opacity"
+          className="cursor-pointer hover:opacity-75 transition-opacity max-md:mb-2"
         >
           <img
             src="https://cdn.builder.io/api/v1/image/assets/cc19c8fb85a142d1a49f6d5b2b38adc8/0f1e14ada146973e15d8f8eb0720cc1946bd5c1c"
             alt="Scroll left"
-            className="aspect-[0.49] object-contain w-[26px] self-stretch shrink-0 my-auto"
+            className="aspect-[0.49] object-contain w-[26px] self-stretch shrink-0 my-auto max-md:w-5"
           />
         </button>
         <div
           id="new-workshops-container"
-          className="overflow-x-auto self-stretch flex min-w-60 items-stretch gap-[30px] overflow-hidden w-[1151px] my-auto max-md:max-w-full"
+          className="overflow-x-auto self-stretch flex min-w-60 items-stretch gap-[30px] overflow-hidden w-[1151px] my-auto max-md:max-w-full max-md:w-full max-md:gap-2"
         >
           {workshops.length > 0 ? (
             workshops.map((workshop) => (
-              <div key={workshop.id} className="min-h-80 max-md:max-w-full">
+              <div
+                key={workshop.id}
+                className="min-h-80 max-md:max-w-full max-md:min-h-60"
+              >
                 <WorkshopCard
                   workshop={workshop}
                   variant="vertical"
@@ -118,7 +121,7 @@ const NewWorkshopsSection = ({
               </div>
             ))
           ) : (
-            <p className="text-center text-gray-500">
+            <p className="text-center text-gray-500 max-md:text-sm">
               There are no new workshops yet
             </p>
           )}
@@ -126,12 +129,12 @@ const NewWorkshopsSection = ({
         <button
           onClick={scrollRight}
           aria-label="Scroll right"
-          className="cursor-pointer hover:opacity-75 transition-opacity"
+          className="cursor-pointer hover:opacity-75 transition-opacity max-md:mt-2"
         >
           <img
             src="https://cdn.builder.io/api/v1/image/assets/cc19c8fb85a142d1a49f6d5b2b38adc8/6e814d2ab891cca74bd66dffc2fb21200be2cbb8"
             alt="Scroll right"
-            className="aspect-[0.51] object-contain w-[27px] self-stretch shrink-0 my-auto"
+            className="aspect-[0.51] object-contain w-[27px] self-stretch shrink-0 my-auto max-md:w-5"
           />
         </button>
       </div>

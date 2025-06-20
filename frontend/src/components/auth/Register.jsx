@@ -156,7 +156,7 @@ const Register = () => {
                 <div className="flex justify-between gap-4 mt-3">
                   <button className="w-1/2 bg-black text-white py-3 rounded-full flex items-center justify-center gap-2 hover:opacity-90">
                     <img
-                      src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_G_Logo.svg"
+                      src="/logoGoogle.png"
                       alt="Google"
                       className="w-5 h-5"
                     />

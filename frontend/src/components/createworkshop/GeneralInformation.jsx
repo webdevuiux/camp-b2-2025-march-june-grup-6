@@ -4,7 +4,7 @@ const GeneralInformation = ({ data, onChange }) => {
   const [formData, setFormData] = useState({
     title: data.title || "",
     description: data.description || "",
-    category: data.category || "", // Biarkan kosong sampai kategori diambil
+    category: data.category || "",
   });
   const [albumImages, setAlbumImages] = useState([]);
   const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -15,20 +15,20 @@ const GeneralInformation = ({ data, onChange }) => {
   const API_BASE_URL =
     process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 
-  // Ambil kategori dari backend
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         setLoadingCategories(true);
-        const response = await fetch(`${API_BASE_URL}/api/workshops/categories`);
+        const response = await fetch(
+          `${API_BASE_URL}/api/workshops/categories`
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch categories");
         }
         const data = await response.json();
-        console.log("Fetched categories:", data); // Debug
+        console.log("Fetched categories:", data);
         setCategories(data);
 
-        // Set default category jika formData.category kosong atau tidak valid
         if (
           !formData.category ||
           !data.find((cat) => cat.name === formData.category)
@@ -49,7 +49,6 @@ const GeneralInformation = ({ data, onChange }) => {
     fetchCategories();
   }, []);
 
-  // Kirim formData ke parent saat berubah
   useEffect(() => {
     onChange(formData);
   }, [formData, onChange]);
@@ -65,17 +64,21 @@ const GeneralInformation = ({ data, onChange }) => {
   };
 
   return (
-    <div className="p-6 text-black space-y-8">
+    <div className="p-4 sm:p-6 text-black space-y-6">
       {/* General Information */}
       <div>
-        <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-          <img src="/img/icon_alert.svg" alt="Info Icon" className="w-8 h-8" />
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 flex items-center gap-2">
+          <img
+            src="/img/icon_alert.svg"
+            alt="Info Icon"
+            className="w-6 h-6 sm:w-8 sm:h-8"
+          />
           General Information
         </h2>
 
         {/* Name Field */}
-        <div className="mb-6">
-          <label className="block text-lg font-semibold mb-1">
+        <div className="mb-4 sm:mb-6">
+          <label className="block text-base sm:text-lg font-semibold mb-1">
             Name <span className="text-red-500">*</span>
           </label>
           <input
@@ -85,17 +88,17 @@ const GeneralInformation = ({ data, onChange }) => {
               setFormData({ ...formData, title: e.target.value })
             }
             placeholder="Terrarium Jar : Little Gardens Indoors"
-            className="w-full bg-[#E8DCCF] border border-black rounded px-4 py-2 text-base"
+            className="w-full bg-[#E8DCCF] border border-black rounded px-3 py-2 text-sm sm:text-base"
             required
           />
         </div>
 
         {/* Description Field */}
         <div>
-          <label className="block text-lg font-semibold mb-1">
+          <label className="block text-base sm:text-lg font-semibold mb-1">
             Description
           </label>
-          <p className="text-sm text-gray-700 mb-2">
+          <p className="text-xs sm:text-sm text-gray-700 mb-2">
             Provide essential workshop details
           </p>
           <textarea
@@ -105,7 +108,7 @@ const GeneralInformation = ({ data, onChange }) => {
               setFormData({ ...formData, description: e.target.value })
             }
             placeholder="Enter description here..."
-            className="w-full bg-[#E8DCCF] border border-black rounded px-4 py-2 text-base"
+            className="w-full bg-[#E8DCCF] border border-black rounded px-3 py-2 text-sm sm:text-base"
             required
           />
         </div>
@@ -114,23 +117,29 @@ const GeneralInformation = ({ data, onChange }) => {
       {/* Category and Album */}
       <div>
         {/* Category */}
-        <div className="mb-8">
-          <label className="block text-2xl font-bold mb-1">Category</label>
-          <p className="text-sm text-gray-700 mb-2">
+        <div className="mb-6 sm:mb-8">
+          <label className="block text-xl sm:text-2xl font-bold mb-1">
+            Category
+          </label>
+          <p className="text-xs sm:text-sm text-gray-700 mb-2">
             Choose the category for your workshop
           </p>
           <div className="relative">
             {loadingCategories ? (
-              <p className="text-sm text-gray-600">Loading categories...</p>
+              <p className="text-xs sm:text-sm text-gray-600">
+                Loading categories...
+              </p>
             ) : errorCategories ? (
-              <p className="text-sm text-red-500">{errorCategories}</p>
+              <p className="text-xs sm:text-sm text-red-500">
+                {errorCategories}
+              </p>
             ) : (
               <select
                 value={formData.category}
                 onChange={(e) =>
                   setFormData({ ...formData, category: e.target.value })
                 }
-                className="appearance-none w-full border border-black rounded px-12 py-3 bg-[#E8DCCF] text-base text-gray-800 cursor-pointer"
+                className="appearance-none w-full border border-black rounded px-10 sm:px-12 py-2 sm:py-3 bg-[#E8DCCF] text-sm sm:text-base text-gray-800 cursor-pointer"
                 required
               >
                 {categories.length === 0 ? (
@@ -144,18 +153,18 @@ const GeneralInformation = ({ data, onChange }) => {
                 )}
               </select>
             )}
-            <div className="absolute left-4 top-1/2 -translate-y-1/2">
+            <div className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2">
               <img
                 src="/img/icon_home.svg"
                 alt="Home Icon"
-                className="w-5 h-5"
+                className="w-4 h-4 sm:w-5 sm:h-5"
               />
             </div>
-            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+            <div className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 pointer-events-none">
               <img
                 src="/img/icon_arrow_down.svg"
                 alt="Arrow Down"
-                className="w-4 h-4"
+                className="w-3 h-3 sm:w-4 sm:h-4"
               />
             </div>
           </div>
@@ -163,12 +172,14 @@ const GeneralInformation = ({ data, onChange }) => {
 
         {/* Album */}
         <div>
-          <label className="block text-2xl font-bold mb-1">Album</label>
-          <p className="text-sm text-gray-700 mb-2">
+          <label className="block text-xl sm:text-2xl font-bold mb-1">
+            Album
+          </label>
+          <p className="text-xs sm:text-sm text-gray-700 mb-2">
             Upload images for your workshop
           </p>
-          <div className="flex flex-wrap gap-4">
-            <label className="w-24 h-24 border border-black flex items-center justify-center text-4xl text-black rounded cursor-pointer hover:bg-[#FF5126] hover:text-white transition">
+          <div className="flex flex-wrap gap-3 sm:gap-4">
+            <label className="w-20 h-20 sm:w-24 sm:h-24 border border-black flex items-center justify-center text-3xl sm:text-4xl text-black rounded cursor-pointer hover:bg-[#FF5126] hover:text-white transition">
               +
               <input
                 type="file"
@@ -181,7 +192,7 @@ const GeneralInformation = ({ data, onChange }) => {
             {albumImages.map((url, index) => (
               <div
                 key={index}
-                className="w-24 h-24 border border-black rounded overflow-hidden relative"
+                className="w-20 h-20 sm:w-24 sm:h-24 border border-black rounded overflow-hidden relative"
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
               >
@@ -199,7 +210,7 @@ const GeneralInformation = ({ data, onChange }) => {
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4"
+                      className="h-3 w-3 sm:h-4 sm:w-4"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"

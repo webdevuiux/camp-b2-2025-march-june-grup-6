@@ -42,24 +42,29 @@ const ViewWorkshopReview = ({ workshopId }) => {
     }
   }, [workshopId]);
 
-  if (loading) return <p className="p-6 text-gray-600">Loading reviews...</p>;
-  if (error) return <p className="p-6 text-red-600">{error}</p>;
+  if (loading)
+    return <p className="p-6 text-gray-600 sm:p-8">Loading reviews...</p>;
+  if (error) return <p className="p-6 text-red-600 sm:p-8">{error}</p>;
 
   return (
-    <div className="mb-16 max-w-2xl mx-auto">
-      <div className="flex items-center justify-start gap-4 mb-6">
-        <button className="border border-black rounded-full px-4 py-3 text-sm font-medium flex items-center gap-2">
-          <img src="/img/filters.icon.svg" alt="filter" className="w-4 h-4" />
+    <div className="mb-16 max-w-2xl mx-auto px-4 sm:px-6">
+      <div className="flex items-center justify-start gap-4 mb-6 flex-col sm:flex-row">
+        <button className="border border-black rounded-full px-4 py-3 text-sm font-medium flex items-center gap-2 sm:px-6 sm:py-4">
+          <img
+            src="/img/filters.icon.svg"
+            alt="filter"
+            className="w-4 h-4 sm:w-5 sm:h-5"
+          />
           FILTERS
         </button>
         <button
           onClick={() => setShowForm(true)}
-          className="bg-black text-white px-6 py-3 rounded-full font-semibold"
+          className="bg-black text-white px-6 py-3 rounded-full font-semibold sm:px-8 sm:py-4"
         >
           Write a Review
         </button>
       </div>
-      <div className="flex justify-between items-center mb-4 text-sm">
+      <div className="flex justify-between items-center mb-4 text-sm sm:text-base">
         <span>{reviews.length} reviews</span>
         <span className="underline cursor-pointer">Sort Most Helpful ▼</span>
       </div>
@@ -84,11 +89,13 @@ const ViewWorkshopReview = ({ workshopId }) => {
         />
       )}
       {reviews.length === 0 ? (
-        <div className="text-center text-gray-500 py-6">Belum ada review</div>
+        <div className="text-center text-gray-500 py-6 sm:py-8">
+          Belum ada review
+        </div>
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-6 sm:space-y-8">
           {reviews.map((review) => (
-            <div key={review.id} className="border-b pb-4 flex gap-4">
+            <div key={review.id} className="border-b pb-4 flex gap-4 sm:gap-6">
               <img
                 src={
                   review.profile_image || // Gunakan profile_image dari user
@@ -97,7 +104,7 @@ const ViewWorkshopReview = ({ workshopId }) => {
                 alt={
                   review.username || `${review.first_name} ${review.last_name}`
                 }
-                className="rounded-full w-10 h-10"
+                className="rounded-full w-10 h-10 sm:w-12 sm:h-12"
                 onError={(e) => {
                   e.target.src = `https://i.pravatar.cc/40?img=${
                     (review.id % 10) + 1
@@ -105,11 +112,11 @@ const ViewWorkshopReview = ({ workshopId }) => {
                 }}
               />
               <div>
-                <div className="font-semibold">
+                <div className="font-semibold sm:text-base">
                   {review.username ||
                     `${review.first_name} ${review.last_name}`}
                 </div>
-                <div className="flex items-center gap-1 text-xs text-gray-500 mb-1">
+                <div className="flex items-center gap-1 text-xs text-gray-500 mb-1 sm:text-sm">
                   {/* Rating Bintang */}
                   {Array.from({ length: 5 }, (_, i) => (
                     <span
@@ -118,13 +125,13 @@ const ViewWorkshopReview = ({ workshopId }) => {
                         i < (review.rating || 0)
                           ? "text-yellow-400"
                           : "text-gray-300"
-                      }`}
+                      } sm:text-xl`}
                     >
                       ★
                     </span>
                   ))}
                 </div>
-                <div className="text-xs text-gray-500 mb-1">
+                <div className="text-xs text-gray-500 mb-1 sm:text-sm">
                   {review.created_at
                     ? new Date(review.created_at).toLocaleDateString("en-US", {
                         month: "long",
@@ -132,8 +139,10 @@ const ViewWorkshopReview = ({ workshopId }) => {
                       })
                     : "N/A"}
                 </div>
-                <div className="font-medium">{review.review_title}</div>
-                <div className="text-sm text-gray-700">
+                <div className="font-medium sm:text-base">
+                  {review.review_title}
+                </div>
+                <div className="text-sm text-gray-700 sm:text-base">
                   {review.review_description || "No description provided."}
                 </div>
               </div>
@@ -142,8 +151,8 @@ const ViewWorkshopReview = ({ workshopId }) => {
         </div>
       )}
       {reviews.length > 0 && (
-        <div className="flex justify-center mt-6">
-          <button className="bg-black text-white px-8 py-2 rounded-full text-sm font-medium">
+        <div className="flex justify-center mt-6 sm:mt-8">
+          <button className="bg-black text-white px-8 py-2 rounded-full text-sm font-medium sm:px-10 sm:py-3">
             SEE MORE
           </button>
         </div>

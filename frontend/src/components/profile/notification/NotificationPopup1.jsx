@@ -35,27 +35,27 @@ const NotificationPopup1 = ({ onClose, notification }) => {
 
   return (
     <div
-      className="fixed inset-0 bg-black/20 z-50 flex justify-end items-start pt-10"
+      className="fixed inset-0 bg-black/20 z-50 flex justify-end items-start pt-10 sm:pt-12"
       onClick={handleOverlayClick}
     >
       <div
-        className="w-[600px] h-[550px] bg-[#FCEDDA] mt-6 shadow-lg p-6 animate-slide-in"
+        className="w-[600px] h-[550px] bg-[#FCEDDA] mt-6 shadow-lg p-6 sm:p-8 animate-slide-in"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center border-b pb-2 mb-4">
-          <h2 className="text-sm font-mono font-bold tracking-wide">
+          <h2 className="text-sm font-mono font-bold tracking-wide sm:text-base">
             Notification
           </h2>
           <button
             onClick={onClose}
-            className="text-sm font-mono tracking-wide hover:text-black"
+            className="text-sm font-mono tracking-wide hover:text-black sm:text-base"
           >
             Close - X
           </button>
         </div>
 
-        <div className="flex gap-4 mt-10 mb-8">
-          <div className="relative w-14 h-14 shrink-0 overflow-hidden">
+        <div className="flex gap-4 mt-10 mb-8 sm:gap-6">
+          <div className="relative w-14 h-14 shrink-0 overflow-hidden sm:w-16 sm:h-16">
             <img
               src="./img/frame1.png"
               alt="notif"
@@ -63,10 +63,10 @@ const NotificationPopup1 = ({ onClose, notification }) => {
             />
           </div>
           <div>
-            <h3 className="font-bold text-xl">
+            <h3 className="font-bold text-xl sm:text-2xl">
               Workshop Purchase Confirmation
             </h3>
-            <p className="text-xs mt-2 text-[#000000]">
+            <p className="text-xs mt-2 text-[#000000] sm:text-sm">
               {new Date().toLocaleString("en-US", {
                 month: "short",
                 day: "numeric",
@@ -78,7 +78,7 @@ const NotificationPopup1 = ({ onClose, notification }) => {
           </div>
         </div>
 
-        <div className="text-md ml-18 mr-18 text-[#000000] space-y-4">
+        <div className="text-md ml-18 mr-18 text-[#000000] space-y-4 sm:text-lg sm:ml-20 sm:mr-20">
           <p>
             {`Congratulations! Your spot for the "${workshopTitle}" scheduled for ${workshopTime} on ${workshopDate} has been successfully confirmed. Thank you for your purchase!`}
           </p>

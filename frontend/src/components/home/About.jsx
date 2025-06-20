@@ -1,6 +1,6 @@
 // src/components/About.jsx
 import React from "react";
-import { FaTwitter, FaInstagram, FaTiktok } from "react-icons/fa"; 
+import { FaTwitter, FaInstagram, FaTiktok } from "react-icons/fa";
 
 const About = () => {
   return (

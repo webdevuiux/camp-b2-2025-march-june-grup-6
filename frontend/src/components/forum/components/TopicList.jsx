@@ -13,10 +13,7 @@ const TopicList = ({ searchQuery }) => {
 
   useEffect(() => {
     const fetchForumTopics = async () => {
-      // console.log("Starting fetchForumTopics...");
       const token = localStorage.getItem("token");
-      // console.log("Token:", token ? "Found" : "Not found");
-
       try {
         const response = await fetch(`${API_BASE_URL}/api/forum/topics`, {
           method: "GET",
@@ -25,15 +22,12 @@ const TopicList = ({ searchQuery }) => {
             "Content-Type": "application/json",
           },
         });
-        // console.log("Fetch response status:", response.status);
         if (!response.ok) {
           const errorText = await response.text();
           throw new Error(`HTTP Error: ${response.status} - ${errorText}`);
         }
 
         const data = await response.json();
-        // console.log("Raw data from server:", data);
-
         if (!Array.isArray(data)) {
           throw new Error("Expected an array of topics, but got:", data);
         }
@@ -61,7 +55,6 @@ const TopicList = ({ searchQuery }) => {
               })
             : "N/A",
         }));
-        // console.log("Mapped topics:", mappedTopics);
         setTopics(mappedTopics);
       } catch (err) {
         console.error("Error in fetchForumTopics:", err);
@@ -74,21 +67,27 @@ const TopicList = ({ searchQuery }) => {
     fetchForumTopics();
   }, []);
 
-  // Filter topics based on searchQuery
   const filteredTopics = topics.filter(
     (topic) =>
       topic.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       topic.author.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  if (loading) return <p className="text-center py-10">Loading topics...</p>;
+  if (loading)
+    return (
+      <p className="text-center py-10 max-md:text-sm">Loading topics...</p>
+    );
   if (error)
-    return <p className="text-center py-10 text-red-500">Error: {error}</p>;
+    return (
+      <p className="text-center py-10 text-red-500 max-md:text-sm">
+        Error: {error}
+      </p>
+    );
   if (filteredTopics.length === 0)
-    return <p className="text-center py-10">No topics found.</p>;
+    return <p className="text-center py-10 max-md:text-sm">No topics found.</p>;
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 max-md:space-y-2">
       {filteredTopics.map((topic) => (
         <TopicItem key={topic.id} topic={topic} />
       ))}

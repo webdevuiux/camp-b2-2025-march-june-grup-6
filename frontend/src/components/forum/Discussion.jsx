@@ -138,28 +138,28 @@ const Discussion = () => {
 
   if (loading)
     return (
-      <div className="min-h-screen bg-[#FBE8D3] pt-10 flex items-center justify-center">
+      <div className="min-h-screen bg-[#FBE8D3] pt-10 flex items-center justify-center max-md:pt-5">
         Loading...
       </div>
     );
   if (error)
     return (
-      <div className="min-h-screen bg-[#FBE8D3] pt-10 flex items-center justify-center text-red-500">
+      <div className="min-h-screen bg-[#FBE8D3] pt-10 flex items-center justify-center text-red-500 max-md:pt-5">
         {error}
       </div>
     );
   if (!topic)
     return (
-      <div className="min-h-screen bg-[#FBE8D3] pt-10 flex items-center justify-center">
+      <div className="min-h-screen bg-[#FBE8D3] pt-10 flex items-center justify-center max-md:pt-5">
         Topik tidak ditemukan.
       </div>
     );
 
   return (
-    <div className="min-h-screen bg-[#FBE8D3] pt-10 flex flex-col">
-      <main className="flex-grow container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-[#FBE8D3] pt-10 flex flex-col max-md:pt-5">
+      <main className="flex-grow container mx-auto px-4 py-8 max-md:px-2 max-md:py-4">
         {/* Banner */}
-        <div className="relative w-full h-50 md:h-58 overflow-hidden mb-8 shadow-lg">
+        <div className="relative w-full h-50 md:h-58 overflow-hidden mb-8 shadow-lg max-md:h-36 max-md:mb-4">
           <img
             src={`/img/banner_newtopik.svg`}
             alt="Create topic banner"
@@ -171,29 +171,31 @@ const Discussion = () => {
                 "https://placehold.co/600x200/EFE2D3/000000?text=Banner";
             }}
           />
-          <div className="absolute inset-0 bg-black bg-opacity-5 flex flex-col items-center justify-center text-white text-center p-4">
-            <h1 className="text-3xl md:text-4xl font-bold">{topic.title}</h1>
+          <div className="absolute inset-0 bg-black bg-opacity-5 flex flex-col items-center justify-center text-white text-center p-4 max-md:p-2">
+            <h1 className="text-3xl md:text-4xl font-bold max-md:text-2xl">
+              {topic.title}
+            </h1>
           </div>
         </div>
 
         {/* Breadcrumb */}
-        <div className="bg-[#FFDEB5] px-6 py-4 mb-6 rounded-sm">
-          <p className="text-sm text-gray-700">
+        <div className="bg-[#FFDEB5] px-6 py-4 mb-6 rounded-sm max-md:px-2 max-md:py-2 max-md:mb-3">
+          <p className="text-sm text-gray-700 max-md:text-xs">
             <span className="text-gray-600">Forum / </span>
             <span className="font-semibold text-black">{topic.title}</span>
           </p>
         </div>
 
         {/* Komentar Diskusi */}
-        <div className="space-y-6 mb-10">
+        <div className="space-y-6 mb-10 max-md:space-y-3 max-md:mb-5">
           {/* Komentar dari OP */}
-          <div className="bg-[#FBE8D3] p-4 shadow-sm border border-[#EFD5B7]">
-            <div className="flex items-start justify-between">
-              <div className="flex items-start gap-3">
+          <div className="bg-[#FBE8D3] p-4 shadow-sm border border-[#EFD5B7] max-md:p-2">
+            <div className="flex items-start justify-between max-md:flex-col">
+              <div className="flex items-start gap-3 max-md:gap-2">
                 <img
                   src={topic.avatar}
                   alt={topic.author_name}
-                  className="w-10 h-10 rounded-full object-cover"
+                  className="w-10 h-10 rounded-full object-cover max-md:w-8 max-md:h-8"
                   onError={(e) => {
                     console.error("OP image load error:", e);
                     e.target.onerror = null;
@@ -202,16 +204,18 @@ const Discussion = () => {
                   }}
                 />
                 <div>
-                  <p className="font-semibold text-sm text-black">
+                  <p className="font-semibold text-sm text-black max-md:text-xs">
                     {topic.author_name}{" "}
-                    <span className="text-[#FF6B00] font-bold text-xs ml-1">
+                    <span className="text-[#FF6B00] font-bold text-xs ml-1 max-md:text-xxs">
                       • OP
                     </span>
                   </p>
-                  <p className="text-sm text-gray-800 mt-1">{topic.content}</p>
+                  <p className="text-sm text-gray-800 mt-1 max-md:text-xs max-md:mt-0.5">
+                    {topic.content}
+                  </p>
                 </div>
               </div>
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-gray-500 max-md:text-xxs">
                 {new Date(topic.created_at).toLocaleString("en-US", {
                   month: "short",
                   day: "numeric",
@@ -227,14 +231,14 @@ const Discussion = () => {
           {comments.map((comment) => (
             <div
               key={comment.id}
-              className="bg-[#FFDEB5] p-4 shadow-sm border border-[#E0B075]"
+              className="bg-[#FFDEB5] p-4 shadow-sm border border-[#E0B075] max-md:p-2"
             >
-              <div className="flex items-start justify-between">
-                <div className="flex items-start gap-3">
+              <div className="flex items-start justify-between max-md:flex-col">
+                <div className="flex items-start gap-3 max-md:gap-2">
                   <img
                     src={comment.avatar}
                     alt={comment.comment_author_name}
-                    className="w-10 h-10 rounded-full object-cover"
+                    className="w-10 h-10 rounded-full object-cover max-md:w-8 max-md:h-8"
                     onError={(e) => {
                       console.error("Comment image load error:", e);
                       e.target.onerror = null;
@@ -243,20 +247,20 @@ const Discussion = () => {
                     }}
                   />
                   <div>
-                    <p className="font-semibold text-sm text-black">
+                    <p className="font-semibold text-sm text-black max-md:text-xs">
                       {comment.comment_author_name || "Anonymous"}
                     </p>
-                    <p className="text-sm text-gray-800 mt-1">
+                    <p className="text-sm text-gray-800 mt-1 max-md:text-xs max-md:mt-0.5">
                       {comment.content}
                     </p>
                     {comment.file && (
-                      <p className="text-xs text-gray-600 mt-1">
+                      <p className="text-xs text-gray-600 mt-1 max-md:text-xxs">
                         File: {comment.file}
                       </p>
                     )}
                   </div>
                 </div>
-                <span className="text-xs text-gray-500">
+                <span className="text-xs text-gray-500 max-md:text-xxs">
                   {new Date(comment.created_at).toLocaleString("en-US", {
                     month: "short",
                     day: "numeric",
@@ -271,13 +275,13 @@ const Discussion = () => {
         </div>
 
         {/* Reply Form */}
-        <div className="bg-[#FBE8D3] border-t border-black pt-6">
-          <div className="ml-[50px] mx-auto">
-            <h2 className="flex items-center font-semibold text-[30px] mb-4 text-gray-800">
+        <div className="bg-[#FBE8D3] border-t border-black pt-6 max-md:pt-3">
+          <div className="ml-[50px] mx-auto max-md:ml-2">
+            <h2 className="flex items-center font-semibold text-[30px] mb-4 text-gray-800 max-md:text-2xl max-md:mb-2">
               <img
                 src="/img/icon_inbox.svg"
                 alt="Chat icon"
-                className="w-8 h-8 mr-2"
+                className="w-8 h-8 mr-2 max-md:w-6 max-md:h-6"
                 onError={(e) => {
                   console.error("Icon inbox load error:", e);
                   e.target.onerror = null;
@@ -287,20 +291,23 @@ const Discussion = () => {
               />
               Reply to this topic
             </h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-4 max-md:space-y-2"
+            >
               <textarea
                 value={comment}
                 onChange={handleCommentChange}
                 placeholder="Write Here"
-                className="w-[1150px] h-36 p-3 border border-gray-400 bg-[#E9DBC8] rounded-[5px] text-sm resize-none"
+                className="w-[1150px] h-36 p-3 border border-gray-400 bg-[#E9DBC8] rounded-[5px] text-sm resize-none max-md:w-full max-md:h-24 max-md:p-2 max-md:text-sm"
               ></textarea>
 
-              <div className="w-[600px] h-[80px] border border-gray-400 bg-[#E9DBC8] rounded-[5px] px-4 py-2 text-sm">
-                <label className="cursor-pointer flex items-start gap-3 text-gray-700">
+              <div className="w-[600px] h-[80px] border border-gray-400 bg-[#E9DBC8] rounded-[5px] px-4 py-2 text-sm max-md:w-full max-md:h-16 max-md:px-2 max-md:py-1">
+                <label className="cursor-pointer flex items-start gap-3 text-gray-700 max-md:gap-1">
                   <img
                     src="/img/icon_pagevid.svg"
                     alt="Upload icon"
-                    className="w-12 h-12 mt-1"
+                    className="w-12 h-12 mt-1 max-md:w-8 max-md:h-8"
                     onError={(e) => {
                       console.error("Icon pagevid load error:", e);
                       e.target.onerror = null;
@@ -308,9 +315,11 @@ const Discussion = () => {
                         "https://placehold.co/40x40/EFE2D3/000000?text=P";
                     }}
                   />
-                  <div className="mt-2 flex flex-col">
-                    <span className="font-semibold">Add Photos or Videos</span>
-                    <span className="text-xs text-gray-600">
+                  <div className="mt-2 flex flex-col max-md:mt-0">
+                    <span className="font-semibold max-md:text-sm">
+                      Add Photos or Videos
+                    </span>
+                    <span className="text-xs text-gray-600 max-md:text-xxs">
                       Click here or drag to upload
                     </span>
                   </div>
@@ -322,7 +331,7 @@ const Discussion = () => {
                   />
                 </label>
                 {file && (
-                  <p className="text-xs mt-2 text-gray-600">
+                  <p className="text-xs mt-2 text-gray-600 max-md:text-xxs">
                     Uploaded: {file.name}
                   </p>
                 )}
@@ -330,7 +339,7 @@ const Discussion = () => {
 
               <button
                 type="submit"
-                className="bg-black text-white w-[1150px] h-[50px] py-2 rounded-lg font-medium hover:bg-gray-800 transition"
+                className="bg-black text-white w-[1150px] h-[50px] py-2 rounded-lg font-medium hover:bg-gray-800 transition max-md:w-full max-md:h-10 max-md:text-sm"
               >
                 Post Comment
               </button>

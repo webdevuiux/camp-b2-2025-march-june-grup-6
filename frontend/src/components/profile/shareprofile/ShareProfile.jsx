@@ -72,21 +72,21 @@ export default function ShareProfile() {
             </h2>
 
             <div className="flex gap-3 mb-4">
-              <a href="https://www.linkedin.com/sharing/share-offsite/?url={url}">
+              <a href='https://www.linkedin.com/in/hasbul-ihza-firnanda-az'>
                 <img
                   src="/img/linkedin.png"
                   alt="LinkedIn"
                   className="w-8 h-8"
                 />
               </a>
-              <a href="https://www.facebook.com/sharer/sharer.php?u=#url">
+              <a href='https://www.facebook.com/share/1BvgLxgVnQ/'>
                 <img
                   src="/img/facebook.png"
                   alt="Facebook"
                   className="w-8 h-8"
                 />
               </a>
-              <a href="http://twitter.com/share">
+              <a href='https://x.com/yourcrush9072?s=21&t=TXn6xYKK6426ZsHyijI5SQ'>
                 <img src="/img/x.png" alt="X" className="w-8 h-8" />
               </a>
               <a href="https://www.instagram.com/create/story">
@@ -96,7 +96,7 @@ export default function ShareProfile() {
                   className="w-8 h-8"
                 />
               </a>
-              <a href="https://telegram.me/share/url?url=<URL>&text=<TEXT>">
+              <a href='https://t.me/hasbulajah'>
                 <img
                   src="/img/telegram.png"
                   alt="Telegram"

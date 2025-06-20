@@ -11,7 +11,7 @@ const HomePage = () => {
   return (
     <main className="bg-[#FCEDDA]">
       <div className="flex w-full flex-col items-stretch bg-[#FCEDDA] py-1 max-md:max-w-full">
-        <div className="flex w-full flex-col items-stretch px-[50px] max-md:max-w-full max-md:px-5">
+        <div className="flex w-full flex-col items-stretch px-[50px] max-md:px-5">
           <Navbar />
           <Hero />
         </div>

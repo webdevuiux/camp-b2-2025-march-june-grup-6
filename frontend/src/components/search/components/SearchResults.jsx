@@ -17,10 +17,7 @@ const SearchResults = ({
 
   const normalizeCategory = (category) => {
     if (!category) return "unknown";
-    return category
-      .toLowerCase()
-      .replace(/ & /g, "") 
-      .replace(/\s+/g, ""); 
+    return category.toLowerCase().replace(/ & /g, "").replace(/\s+/g, "");
   };
 
   // Fungsi untuk memetakan kategori berdasarkan topic atau description sebagai cadangan
@@ -191,12 +188,12 @@ const SearchResults = ({
 
   return (
     <div
-      className={`flex w-full flex-col items-stretch mt-1.5 max-md:max-w-full max-md:mt-9 ${className}`}
+      className={`flex w-full flex-col items-stretch mt-1.5 max-md:max-w-full max-md:mt-2 ${className}`}
     >
-      <div className="text-black text-sm font-normal">
+      <div className="text-black text-sm font-normal max-md:text-xs">
         <span className="font-extrabold">{results.length}</span> results found
       </div>
-      <div className="flex flex-col gap-5 mt-[15px] max-md:max-w-full">
+      <div className="flex flex-col gap-5 mt-[15px] max-md:max-w-full max-md:gap-2 max-md:mt-2">
         {results.length > 0 ? (
           results.map((workshop) => (
             <WorkshopCard
@@ -207,7 +204,7 @@ const SearchResults = ({
             />
           ))
         ) : (
-          <p className="text-center text-gray-500">
+          <p className="text-center text-gray-500 max-md:text-sm">
             There are no workshop recommendations yet
           </p>
         )}
@@ -215,7 +212,7 @@ const SearchResults = ({
       {results.length > 0 && (
         <button
           onClick={onViewMore}
-          className="text-[#FCEDDA] min-h-[35px] gap-[5px] text-base font-normal bg-[#FF5126] mt-5 px-2.5 py-1.5 hover:bg-opacity-80 transition-colors"
+          className="text-[#FCEDDA] min-h-[35px] gap-[5px] text-base font-normal bg-[#FF5126] mt-5 px-2.5 py-1.5 hover:bg-opacity-80 transition-colors max-md:mt-2 max-md:text-sm"
         >
           View More
         </button>

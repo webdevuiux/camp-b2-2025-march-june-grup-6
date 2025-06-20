@@ -57,36 +57,47 @@ const TicketsDetail = () => {
     return phone.startsWith("+62") ? `0${phone.slice(3)}` : phone;
   };
 
-  if (loading) return <div className="p-6 text-center">Memuat...</div>;
-  if (error) return <div className="p-6 text-center text-red-500">{error}</div>;
+  if (loading) return <div className="p-6 text-center sm:p-8">Memuat...</div>;
+  if (error)
+    return <div className="p-6 text-center text-red-500 sm:p-8">{error}</div>;
   if (!ticket)
-    return <div className="p-6 text-center">Data tiket tidak ditemukan.</div>;
+    return (
+      <div className="p-6 text-center sm:p-8">Data tiket tidak ditemukan.</div>
+    );
 
   return (
-    <div className="bg-[#FCEDDA] min-h-screen font-Roboto px-6 md:px-20 py-6">
+    <div className="bg-[#FCEDDA] min-h-screen font-Roboto px-6 md:px-20 py-6 sm:px-8 sm:py-8">
       {/* Back Button */}
       <button
         onClick={() => navigate(-1)}
-        className="mt-14 mb-6 -ml-8 hover:underline"
+        className="mt-14 mb-6 -ml-8 hover:underline sm:-ml-10"
       >
-        <img src="/img/arrow_back.svg" alt="Back Icon" className="w-8 h-8" />
+        <img
+          src="/img/arrow_back.svg"
+          alt="Back Icon"
+          className="w-8 h-8 sm:w-10 sm:h-10"
+        />
       </button>
 
       {/* Date & Title */}
-      <div className="text-xs flex items-center gap-2 mb-1">
-        <img src="/img/calender.svg" alt="Calender Icon" className="w-4 h-4" />
+      <div className="text-xs flex items-center gap-2 mb-1 sm:text-sm">
+        <img
+          src="/img/calender.svg"
+          alt="Calender Icon"
+          className="w-4 h-4 sm:w-5 sm:h-5"
+        />
         {new Date(ticket.workshop_date).toLocaleDateString("en-US", {
           month: "long",
           day: "numeric",
           year: "numeric",
         })}
       </div>
-      <h1 className="text-2xl font-bold mb-6">
+      <h1 className="text-2xl font-bold mb-6 sm:text-3xl">
         {ticket.title || "Workshop Title"}
       </h1>
 
       {/* Wrapper Gambar + InfoBox */}
-      <div className="flex flex-col md:flex-row gap-6 mb-4 items-stretch">
+      <div className="flex flex-col md:flex-row gap-6 mb-4 items-stretch sm:gap-8">
         {/* KIRI: Gambar saja */}
         <div className="md:w-1/2">
           <img
@@ -98,7 +109,7 @@ const TicketsDetail = () => {
         </div>
 
         {/* KANAN: InfoBox */}
-        <div className="md:w-1/2 grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="md:w-1/2 grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
           <InfoBox
             icon="/img/calender.svg"
             title="DATE AND TIME"
@@ -129,20 +140,20 @@ const TicketsDetail = () => {
 
       {/* Tombol */}
       <Link to={`/workshop-detail/${ticket.workshop_id}`}>
-        <button className="bg-[#FF570C] rounded-[5px] text-white px-3 py-1 text-[10px]">
+        <button className="bg-[#FF570C] rounded-[5px] text-white px-3 py-1 text-[10px] sm:text-xs">
           View Workshop Details
         </button>
       </Link>
 
       {/* Section: Ticket Detail */}
       <div className="mt-10">
-        <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
-          <h2 className="text-lg font-bold">
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 sm:gap-4">
+          <h2 className="text-lg font-bold sm:text-xl">
             Ticket (1) total: Rp. {ticket.price || "350,000"}
           </h2>
           <button
             onClick={handleRefundClick}
-            className="bg-[#FF570C] text-white text-sm px-[77px] py-2 rounded-[5px] hover:bg-opacity-90 mt-2 md:mt-0"
+            className="bg-[#FF570C] text-white text-sm px-[77px] py-2 rounded-[5px] hover:bg-opacity-90 mt-2 md:mt-0 sm:text-base"
           >
             Refund Ticket
           </button>
@@ -152,16 +163,16 @@ const TicketsDetail = () => {
         <div className="bg-[#FEE4C4] rounded-sm overflow-hidden flex flex-col md:flex-row">
           {/* Left Side: Ticket Info */}
           <div className="flex-1 w-full">
-            <div className="flex items-center gap-2 mt-8 ml-8 mb-8 font-bold text-base">
+            <div className="flex items-center gap-2 mt-8 ml-8 mb-8 font-bold text-base sm:text-lg">
               <img
                 src="/img/ticket.svg"
                 alt="Ticket Icon"
-                className="w-7 h-7"
+                className="w-7 h-7 sm:w-8 sm:h-8"
               />
               TICKET 1
             </div>
 
-            <div className="ml-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 text-sm">
+            <div className="ml-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 text-sm sm:gap-6">
               <div>
                 <p className="text-[#000000]">First Name</p>
                 <p className="text-[#000000]">
@@ -196,11 +207,11 @@ const TicketsDetail = () => {
           </div>
 
           {/* Right Side: QR Code */}
-          <div className="bg-[#FF570C] flex items-center justify-center px-2 py-10 md:w-1/5">
+          <div className="bg-[#FF570C] flex items-center justify-center px-2 py-10 md:w-1/5 sm:py-12">
             <img
               src="/img/qrcode_sementara.svg"
               alt="QR Code"
-              className="w-24 h-24"
+              className="w-24 h-24 sm:w-28 sm:h-28"
             />
           </div>
         </div>
@@ -225,12 +236,16 @@ const calculateDuration = (startTime, endTime) => {
 };
 
 const InfoBox = ({ icon, title, content }) => (
-  <div className="bg-[#FEE4C4] p-4 shadow-md rounded-sm">
-    <div className="mt-4 flex gap-6 ml-2">
-      <img src={icon} alt={`${title} icon`} className="w-12 h-12 mt-2" />
+  <div className="bg-[#FEE4C4] p-4 shadow-md rounded-sm sm:p-6">
+    <div className="mt-4 flex gap-6 ml-2 sm:gap-8">
+      <img
+        src={icon}
+        alt={`${title} icon`}
+        className="w-12 h-12 mt-2 sm:w-14 sm:h-14"
+      />
       <div>
-        <h3 className="text-lg font-bold mb-1">{title}</h3>
-        <p className="text-base whitespace-pre-line">{content}</p>
+        <h3 className="text-lg font-bold mb-1 sm:text-xl">{title}</h3>
+        <p className="text-base whitespace-pre-line sm:text-lg">{content}</p>
       </div>
     </div>
   </div>

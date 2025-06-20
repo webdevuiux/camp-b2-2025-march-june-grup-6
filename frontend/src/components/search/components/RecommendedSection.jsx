@@ -25,7 +25,7 @@ const RecommendedSection = ({
           throw new Error("Failed to fetch approved workshops");
         }
         const data = await response.json();
-        const currentDate = new Date(); 
+        const currentDate = new Date();
         // console.log("Current Date:", currentDate); // Debug
 
         // Mapping dan fetch rating secara paralel
@@ -123,25 +123,25 @@ const RecommendedSection = ({
   };
 
   return (
-    <section className={`${className}`}>
-      <h2 className="text-black text-4xl font-bold ml-[90px] mt-[52px] max-md:ml-2.5 max-md:mt-10">
+    <section className={`${className} max-md:px-2.5`}>
+      <h2 className="text-black text-4xl font-bold ml-[90px] mt-[52px] max-md:ml-2.5 max-md:mt-10 max-md:text-2xl">
         {title}
       </h2>
-      <div className="flex w-full max-w-[1251px] items-center gap-[21px] justify-between flex-wrap mt-[42px] max-md:max-w-full max-md:mt-10">
+      <div className="flex w-full max-w-[1251px] items-center gap-[21px] justify-start flex-nowrap overflow-x-auto scroll-smooth max-md:px-2.5">
         <button
           onClick={scrollLeft}
           aria-label="Scroll left"
-          className="cursor-pointer hover:opacity-75 transition-opacity"
+          className="cursor-pointer hover:opacity-75 transition-opacity max-md:mb-2"
         >
           <img
             src="https://cdn.builder.io/api/v1/image/assets/cc19c8fb85a142d1a49f6d5b2b38adc8/7278fbf29d9071329e988c287a5b507cc57b9760"
             alt="Scroll left"
-            className="aspect-[0.5] object-contain w-[26px] self-stretch shrink-0 my-auto"
+            className="aspect-[0.5] object-contain w-[26px] self-stretch shrink-0 my-auto max-md:w-5"
           />
         </button>
         <div
           id="recommended-container"
-          className="overflow-x-auto self-stretch flex min-w-60 items-stretch gap-[22px] overflow-hidden w-[1157px] my-auto max-md:max-w-full"
+          className="overflow-x-auto self-stretch flex min-w-60 items-stretch gap-[22px] overflow-hidden w-[1157px] my-auto max-md:max-w-full max-md:w-full max-md:gap-2"
         >
           {workshops.length > 0 ? (
             workshops.map((workshop) => (
@@ -154,7 +154,7 @@ const RecommendedSection = ({
               />
             ))
           ) : (
-            <p className="text-center text-gray-500">
+            <p className="text-center text-gray-500 max-md:text-sm">
               There are no workshop recommendations yet
             </p>
           )}
@@ -162,12 +162,12 @@ const RecommendedSection = ({
         <button
           onClick={scrollRight}
           aria-label="Scroll right"
-          className="cursor-pointer hover:opacity-75 transition-opacity"
+          className="cursor-pointer hover:opacity-75 transition-opacity max-md:mt-2"
         >
           <img
             src="https://cdn.builder.io/api/v1/image/assets/cc19c8fb85a142d1a49f6d5b2b38adc8/2a7a961f04c9ffd8177812a784acb2e736410459"
             alt="Scroll right"
-            className="aspect-[0.5] object-contain w-[26px] self-stretch shrink-0 my-auto"
+            className="aspect-[0.5] object-contain w-[26px] self-stretch shrink-0 my-auto max-md:w-5"
           />
         </button>
       </div>

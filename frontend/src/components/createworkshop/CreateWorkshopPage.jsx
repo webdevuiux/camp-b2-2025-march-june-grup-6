@@ -184,9 +184,9 @@ const CreateWorkshopPage = () => {
   };
 
   return (
-    <div className="flex bg-[#FCEDDA] pl-6 pt-14 min-h-screen">
+    <div className="flex flex-col md:flex-row bg-[#FCEDDA] pt-14 min-h-screen">
       <SidebarMenu />
-      <div className="flex-1 p-8 space-y-16 overflow-y-auto">
+      <div className="flex-1 p-4 md:p-8 space-y-8 md:space-y-16 overflow-y-auto">
         {currentSection === "form" && (
           <>
             <div id="upload">

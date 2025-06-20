@@ -21,8 +21,8 @@ const Ticket = () => {
     country: "Indonesia",
     language: "Bahasa Indonesia",
     about: "",
-    workshopsAttended: 0, // Akan dihitung dari tiket
-    forumReplies: 0, // Akan diambil dari API
+    workshopsAttended: 0,
+    forumReplies: 0,
     profileImage: "/img/profile.png",
     id: null,
   });
@@ -74,7 +74,6 @@ const Ticket = () => {
           throw new Error("Token autentikasi tidak ditemukan. Silakan login.");
         }
 
-        // Fetch tickets
         const ticketsResponse = await fetch(
           `${API_BASE_URL}/api/bookings/user/bookings`,
           {
@@ -93,7 +92,6 @@ const Ticket = () => {
         const ticketsData = await ticketsResponse.json();
         setTickets(ticketsData);
 
-        // Hitung workshopsAttended dari tiket yang sudah digunakan
         const currentDate = new Date();
         const usedTicketsCount = ticketsData.filter((ticket) => {
           const workshopDate = new Date(ticket.workshop_date || ticket.date);
@@ -104,7 +102,6 @@ const Ticket = () => {
           workshopsAttended: usedTicketsCount,
         }));
 
-        // Fetch forumReplies for the user
         const forumRepliesResponse = await fetch(
           `${API_BASE_URL}/api/forum/users/${userId}/forumReplies`,
           {
@@ -151,15 +148,15 @@ const Ticket = () => {
     return ticket.status === "confirmed" && workshopDate < currentDate;
   });
 
-  if (loading) return <div className="p-6 text-center">Memuat...</div>;
-  if (error) return <div className="p-6 text-center text-red-500">{error}</div>;
+  if (loading) return <div className="p-6 text-center sm:p-8">Memuat...</div>;
+  if (error)
+    return <div className="p-6 text-center text-red-500 sm:p-8">{error}</div>;
 
   return (
-    <div className="bg-[#FCEDDA] min-h-screen text-[#000000] pt-[2px] pl-2 pr-24 pb-8">
-      <div className="flex flex-col md:flex-row gap-10 mt-24">
-        {/* Sidebar profil */}
-        <aside className="md:w-1/3 flex flex-col items-center text-center">
-          <div className="relative w-36 h-36">
+    <div className="bg-[#FCEDDA] min-h-screen text-[#000000] pt-[2px] pl-2 pr-2 pb-8 sm:p-6 md:pr-24">
+      <div className="flex flex-col md:flex-row gap-10 mt-24 sm:gap-12">
+        <aside className="md:w-1/3 flex flex-col items-center text-center sm:px-4 md:max-w-xs">
+          <div className="relative w-36 h-36 sm:w-40 sm:h-40">
             <img
               src={userData.profileImage}
               alt="Profile"
@@ -171,48 +168,49 @@ const Ticket = () => {
             <img
               src="/img/badge.png"
               alt="Verified"
-              className="absolute bottom-0 right-0 w-[50px] h-[50px]"
+              className="absolute bottom-0 right-0 w-[50px] h-[50px] sm:w-[60px] sm:h-[60px]"
             />
           </div>
-          <div className="mt-[30px] flex items-center gap-2">
-            <h2 className="text-3xl font-bold">
+          <div className="mt-[30px] flex items-center gap-2 sm:mt-6">
+            <h2 className="text-3xl font-bold sm:text-4xl">
               {userData.firstName} {userData.lastName}
             </h2>
           </div>
-          <p className="text-lg text-[#696767]">@{userData.username}</p>
+          <p className="text-lg text-[#696767] sm:text-xl">
+            @{userData.username}
+          </p>
           <ShareProfile />
           <div className="mt-10 space-y-2 w-full max-w-full sm:max-w-[300px] px-4">
-            <div className="flex justify-between w-full">
+            <div className="flex justify-between w-full sm:text-lg">
               <span className="font-medium">Workshop Attended</span>
               <span className="text-gray-500">
                 {userData.workshopsAttended}
               </span>
             </div>
-            <div className="flex justify-between w-full">
+            <div className="flex justify-between w-full sm:text-lg">
               <span className="font-medium">Forum Replies</span>
               <span className="text-gray-500">{userData.forumReplies}</span>
             </div>
           </div>
-          <div className="mt-10 px-6 md:ml-15 text-left md:text-left flex flex-col items-center md:block">
-            <h4 className="font-semibold mb-2">INTEREST</h4>
-            <div className="flex flex-wrap gap-2 justify-center md:justify-start w-full">
-              <span className="mt-1 bg-[#FFDEB5] px-2 py-1 rounded-full text-sm">
+          <div className="mt-10 px-6 md:ml-15 text-left md:text-left flex flex-col items-center md:block sm:px-8">
+            <h4 className="font-semibold mb-2 sm:text-lg">INTEREST</h4>
+            <div className="flex flex-wrap gap-2 justify-center md:justify-start w-full sm:gap-3">
+              <span className="mt-1 bg-[#FFDEB5] px-2 py-1 rounded-full text-sm sm:text-base">
                 Pottery
               </span>
-              <span className="mt-1 bg-[#FFDEB5] px-2 py-1 rounded-full text-sm">
+              <span className="mt-1 bg-[#FFDEB5] px-2 py-1 rounded-full text-sm sm:text-base">
                 Lifestyle & Home
               </span>
-              <span className="mt-1 bg-[#FFDEB5] px-2 py-1 rounded-full text-sm">
+              <span className="mt-1 bg-[#FFDEB5] px-2 py-1 rounded-full text-sm sm:text-base">
                 Painting
               </span>
             </div>
           </div>
         </aside>
 
-        {/* Konten utama */}
-        <section className="flex-1 px-4 md:px-0">
-          <div className="border-b border-black mb-10">
-            <ul className="flex gap-6 text-sm font-robotoMono overflow-x-auto scrollbar-hide">
+        <section className="flex-1 px-4 md:px-0 sm:px-6">
+          <div className="border-b border-black mb-10 sm:mb-12">
+            <ul className="flex gap-6 text-sm font-robotoMono overflow-x-auto scrollbar-hide sm:text-base">
               <li
                 onClick={() => setMainTab("ticket")}
                 className={`cursor-pointer pb-2 whitespace-nowrap ${
@@ -237,7 +235,6 @@ const Ticket = () => {
               >
                 <strong>My Workshop</strong>
               </li>
-              
               <li
                 onClick={() => setMainTab("settings")}
                 className={`cursor-pointer pb-2 whitespace-nowrap ${
@@ -249,11 +246,10 @@ const Ticket = () => {
             </ul>
           </div>
 
-          {/* ===== TICKET TAB CONTENT ===== */}
           {mainTab === "ticket" && (
             <>
-              <div className="mb-4 mt-12">
-                <ul className="flex gap-6 text-l font-semibold overflow-x-auto scrollbar-hide">
+              <div className="mb-4 mt-12 sm:mb-6">
+                <ul className="flex gap-6 text-l font-semibold overflow-x-auto scrollbar-hide sm:text-xl">
                   <li
                     className={`cursor-pointer pb-2 whitespace-nowrap ${
                       activeTab === "upcoming" ? "border-b-2 border-black" : ""
@@ -274,14 +270,14 @@ const Ticket = () => {
               </div>
 
               {activeTab === "upcoming" ? (
-                <div>
+                <div className="space-y-6">
                   {upcomingTickets.length > 0 ? (
                     upcomingTickets.map((ticket) => (
                       <div
                         key={ticket.booking_id}
-                        className="bg-[#FEE4C4] overflow-hidden flex md:flex-row flex-col mb-4"
+                        className="bg-[#FEE4C4] overflow-hidden flex flex-col md:flex-row"
                       >
-                        <div className="w-40 md:w-40 h-40">
+                        <div className="w-full md:w-40 h-40 md:h-40">
                           <img
                             src={ticket.image_url || "/img/pict1.svg"}
                             alt="Workshop"
@@ -290,21 +286,21 @@ const Ticket = () => {
                         </div>
                         <div className="flex-1 px-3 py-3 flex flex-col justify-between">
                           <div>
-                            <h3 className="font-bold text-lg font-robotoMono">
+                            <h3 className="font-bold text-lg font-robotoMono sm:text-xl">
                               {ticket.title || "Workshop Title"}
                             </h3>
-                            <p className="text-sm text-gray-700 mt-1 line-clamp-2">
+                            <p className="text-sm text-gray-700 mt-1 line-clamp-2 sm:text-base">
                               {ticket.description ||
                                 "Learn the basics of this workshop."}
                             </p>
                           </div>
-                          <div className="flex justify-between items-center text-sm text-gray-600">
-                            <div className="flex items-center gap-4">
+                          <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-600 sm:text-base">
+                            <div className="flex flex-col md:flex-row items-center gap-4 mb-2 md:mb-0">
                               <span className="flex items-center gap-1">
                                 <img
                                   src="/img/location.svg"
                                   alt="iconL"
-                                  className="w-4 h-4"
+                                  className="w-4 h-4 sm:w-5 sm:h-5"
                                 />
                                 {ticket.location || "Jakarta, Indonesia"}
                               </span>
@@ -312,7 +308,7 @@ const Ticket = () => {
                                 <img
                                   src="/img/calender.svg"
                                   alt="iconC"
-                                  className="w-4 h-4"
+                                  className="w-4 h-4 sm:w-5 sm:h-5"
                                 />
                                 {formatDate(
                                   ticket.workshop_date || ticket.date
@@ -321,7 +317,7 @@ const Ticket = () => {
                             </div>
                             <Link
                               to={`/ticket/${ticket.booking_id}`}
-                              className="text-sm font-semibold text-black underline"
+                              className="text-sm font-semibold text-black underline sm:text-base"
                             >
                               See Ticket
                             </Link>
@@ -330,20 +326,25 @@ const Ticket = () => {
                       </div>
                     ))
                   ) : (
-                    <p className="text-center text-gray-500">
-                      No upcoming tickets.
-                    </p>
+                    <div className="text-center mt-20">
+                      <p className="font-semibold text-lg">
+                        No upcoming tickets.
+                      </p>
+                      <p className="text-md mt-2">
+                        Check back later for upcoming tickets!
+                      </p>
+                    </div>
                   )}
                 </div>
               ) : (
-                <div>
+                <div className="space-y-6">
                   {usedTickets.length > 0 ? (
                     usedTickets.map((ticket) => (
                       <div
                         key={ticket.booking_id}
-                        className="bg-[#FEE4C4] overflow-hidden flex md:flex-row flex-col mb-4"
+                        className="bg-[#FEE4C4] overflow-hidden flex flex-col md:flex-row"
                       >
-                        <div className="w-40 md:w-40 h-40">
+                        <div className="w-full md:w-40 h-40 md:h-40">
                           <img
                             src={ticket.image_url || "/img/pict2.png"}
                             alt="Workshop"
@@ -352,31 +353,31 @@ const Ticket = () => {
                         </div>
                         <div className="flex-1 px-3 py-3 flex flex-col justify-between">
                           <div>
-                            <div className="flex justify-between items-start">
-                              <h3 className="font-bold text-lg font-robotoMono">
+                            <div className="flex flex-col md:flex-row justify-between items-start">
+                              <h3 className="font-bold text-lg font-robotoMono sm:text-xl">
                                 {ticket.title || "Workshop Title"}
                               </h3>
-                              <div className="text-md font-bold text-gray-700 flex items-center gap-1">
+                              <div className="text-md font-bold text-gray-700 flex items-center gap-1 sm:text-lg">
                                 <span>N/A</span>
                                 <img
                                   src="/img/starline.svg"
                                   alt="Rating Icon"
-                                  className="w-7 h-7 object-contain"
+                                  className="w-7 h-7 object-contain sm:w-8 sm:h-8"
                                 />
                               </div>
                             </div>
-                            <p className="text-sm text-gray-700 mt-1 line-clamp-2">
+                            <p className="text-sm text-gray-700 mt-1 line-clamp-2 sm:text-base">
                               {ticket.description ||
                                 "Learn the basics of this workshop."}
                             </p>
                           </div>
-                          <div className="flex justify-between items-center text-sm text-gray-600">
-                            <div className="flex items-center gap-4">
+                          <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-600 sm:text-base">
+                            <div className="flex flex-col md:flex-row items-center gap-4 mb-2 md:mb-0">
                               <span className="flex items-center gap-1">
                                 <img
                                   src="/img/location.svg"
                                   alt="iconL"
-                                  className="w-4 h-4"
+                                  className="w-4 h-4 sm:w-5 sm:h-5"
                                 />
                                 {ticket.location || "Jakarta, Indonesia"}
                               </span>
@@ -384,7 +385,7 @@ const Ticket = () => {
                                 <img
                                   src="/img/calender.svg"
                                   alt="iconC"
-                                  className="w-4 h-4"
+                                  className="w-4 h-4 sm:w-5 sm:h-5"
                                 />
                                 {formatDate(
                                   ticket.workshop_date || ticket.date
@@ -393,7 +394,7 @@ const Ticket = () => {
                             </div>
                             <a
                               href="#"
-                              className="text-sm font-semibold text-black underline"
+                              className="text-sm font-semibold text-black underline sm:text-base"
                             >
                               Give a Review
                             </a>
@@ -402,34 +403,33 @@ const Ticket = () => {
                       </div>
                     ))
                   ) : (
-                    <p className="text-center text-gray-500">
-                      No used tickets.
-                    </p>
+                    <div className="text-center mt-20">
+                      <p className="font-semibold text-lg">No used tickets.</p>
+                      <p className="text-md mt-2">
+                        Check back later for used tickets!
+                      </p>
+                    </div>
                   )}
                 </div>
               )}
             </>
           )}
 
-          {/* == NOTIFICATION == */}
           {mainTab === "notification" && (
             <div>
               <Notification />
             </div>
           )}
-          {/* == MY WORKSHOP == */}
           {mainTab === "workshop" && (
             <div>
               <MyWorkshop />
             </div>
           )}
-          {/* == KARYA POINTS == */}
           {mainTab === "karya" && (
             <div>
               <Points />
             </div>
           )}
-          {/* == SETTINGS == */}
           {mainTab === "settings" && (
             <div>
               <Settings />

@@ -47,17 +47,21 @@ const TicketSection = ({ data, onChange, onNext }) => {
   ]);
 
   return (
-    <div className="p-6">
+    <div className="p-4 sm:p-6">
       {/* Title */}
-      <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-        <img src="/img/ticket.svg" alt="Ticket Icon" className="w-6 h-6" />
+      <h2 className="text-xl sm:text-2xl font-bold mb-4 flex items-center gap-2">
+        <img
+          src="/img/ticket.svg"
+          alt="Ticket Icon"
+          className="w-5 h-5 sm:w-6 sm:h-6"
+        />
         Ticket
       </h2>
 
       {/* Ticket Type: Paid / Free */}
-      <div className="flex gap-4 mb-6">
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4 sm:mb-6">
         <label
-          className={`mr-2 flex items-center px-5 py-4 border rounded cursor-pointer text-left grow max-w-[467px] relative ${
+          className={`mr-2 flex items-center px-4 py-3 sm:px-5 sm:py-4 border rounded cursor-pointer text-left grow max-w-[467px] relative ${
             ticketType === "paid"
               ? "bg-[#FA5A1E] text-white border-[#FA5A1E]"
               : "bg-transparent border-[#FA5A1E] text-black"
@@ -82,7 +86,7 @@ const TicketSection = ({ data, onChange, onNext }) => {
         </label>
 
         <label
-          className={`flex items-center px-5 py-4 border rounded cursor-pointer text-left grow max-w-[467px] relative ${
+          className={`flex items-center px-4 py-3 sm:px-5 sm:py-4 border rounded cursor-pointer text-left grow max-w-[467px] relative ${
             ticketType === "free"
               ? "bg-[#FA5A1E] text-white border-[#FA5A1E]"
               : "bg-transparent border-[#FA5A1E] text-black"
@@ -108,21 +112,25 @@ const TicketSection = ({ data, onChange, onNext }) => {
       </div>
 
       {/* Quantity & Price */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-8 sm:mb-10">
         <div>
-          <label className="block text-sm font-medium mb-1">Quantity</label>
+          <label className="block text-xs sm:text-sm font-medium mb-1">
+            Quantity
+          </label>
           <input
             type="number"
             placeholder="Quantity"
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
-            className="w-full bg-[#E8DCCF] border border-black rounded px-3 py-2"
+            className="w-full bg-[#E8DCCF] border border-black rounded px-3 py-2 text-sm sm:text-base"
             required
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Price</label>
+          <label className="block text-xs sm:text-sm font-medium mb-1">
+            Price
+          </label>
           <input
             type="text"
             inputMode="numeric"
@@ -133,7 +141,7 @@ const TicketSection = ({ data, onChange, onNext }) => {
               const onlyNums = e.target.value.replace(/[^0-9]/g, "");
               setPrice(onlyNums);
             }}
-            className="w-full bg-[#E8DCCF] border border-black rounded px-3 py-2 appearance-none"
+            className="w-full bg-[#E8DCCF] border border-black rounded px-3 py-2 text-sm sm:text-base appearance-none"
             disabled={ticketType === "free"}
             required={ticketType === "paid"}
           />
@@ -142,52 +150,60 @@ const TicketSection = ({ data, onChange, onNext }) => {
 
       {/* Sale Date Section */}
       <div>
-        <h3 className="text-xl font-semibold mb-1">Sale date</h3>
-        <p className="text-sm text-gray-600 mb-4">
+        <h3 className="text-lg sm:text-xl font-semibold mb-1">Sale date</h3>
+        <p className="text-xs sm:text-sm text-gray-600 mb-4">
           Set the sale time when your audience is able to purchase the tickets
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
           <div>
-            <label className="block text-sm font-medium mb-1">Start date</label>
+            <label className="block text-xs sm:text-sm font-medium mb-1">
+              Start date
+            </label>
             <input
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              className="w-full bg-[#E8DCCF] border border-black rounded px-3 py-2"
+              className="w-full bg-[#E8DCCF] border border-black rounded px-3 py-2 text-sm sm:text-base"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Start time</label>
+            <label className="block text-xs sm:text-sm font-medium mb-1">
+              Start time
+            </label>
             <input
               type="time"
               value={startTime}
               onChange={(e) => setStartTime(e.target.value)}
-              className="w-full bg-[#E8DCCF] border border-black rounded px-3 py-2"
+              className="w-full bg-[#E8DCCF] border border-black rounded px-3 py-2 text-sm sm:text-base"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">End date</label>
+            <label className="block text-xs sm:text-sm font-medium mb-1">
+              End date
+            </label>
             <input
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              className="w-full bg-[#E8DCCF] border border-black rounded px-3 py-2"
+              className="w-full bg-[#E8DCCF] border border-black rounded px-3 py-2 text-sm sm:text-base"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">End time</label>
+            <label className="block text-xs sm:text-sm font-medium mb-1">
+              End time
+            </label>
             <input
               type="time"
               value={endTime}
               onChange={(e) => setEndTime(e.target.value)}
-              className="w-full bg-[#E8DCCF] border border-black rounded px-3 py-2"
+              className="w-full bg-[#E8DCCF] border border-black rounded px-3 py-2 text-sm sm:text-base"
               required
             />
           </div>
@@ -195,10 +211,10 @@ const TicketSection = ({ data, onChange, onNext }) => {
       </div>
 
       {/* Navigation Buttons */}
-      <div className="flex justify-end gap-4 mt-10">
+      <div className="flex justify-between sm:justify-end gap-2 sm:gap-4 mt-4 sm:mt-10">
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 bg-[#FFE1BF] text-black px-6 py-1 rounded-lg"
+          className="flex items-center gap-2 bg-[#FFE1BF] text-black px-4 py-2 sm:px-6 sm:py-2 text-sm sm:text-base rounded-lg"
         >
           ← Back
         </button>
@@ -207,7 +223,7 @@ const TicketSection = ({ data, onChange, onNext }) => {
             if (isFormValid()) onNext();
           }}
           disabled={!isFormValid()}
-          className={`flex items-center gap-2 px-6 py-1 rounded-lg ${
+          className={`flex items-center gap-2 px-4 py-2 sm:px-6 sm:py-2 text-sm sm:text-base rounded-lg ${
             isFormValid()
               ? "bg-[#FA5A1E] hover:bg-[#e14e17] text-white"
               : "bg-[#FA5A1E] text-white cursor-not-allowed"

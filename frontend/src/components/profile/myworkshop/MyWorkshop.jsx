@@ -10,12 +10,11 @@ const MyWorkshop = () => {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    // Reset workshops saat tab berubah
     setWorkshops([]);
 
     const fetchWorkshops = async () => {
       try {
-        const status = tab === "published" ? "upcoming" : "pending"; // 'upcoming' untuk published, 'pending' untuk draft
+        const status = tab === "published" ? "upcoming" : "pending";
         const response = await fetch(
           `${API_BASE_URL}/api/workshops/my?status=${status}`,
           {
@@ -28,7 +27,7 @@ const MyWorkshop = () => {
 
         if (!response.ok) {
           if (response.status === 404) {
-            setWorkshops([]); // Set ke array kosong jika 404
+            setWorkshops([]);
             return;
           }
           throw new Error("Failed to fetch workshops");
@@ -38,7 +37,7 @@ const MyWorkshop = () => {
         setWorkshops(data);
       } catch (err) {
         console.error("Error fetching workshops:", err);
-        setWorkshops([]); // Pastikan state tetap aman meskipun ada error
+        setWorkshops([]);
       }
     };
 
@@ -49,15 +48,14 @@ const MyWorkshop = () => {
     navigate("/create-workshop");
   };
 
-  // Fungsi untuk membuka draft dengan data workshop
   const handleOpenDraft = (workshop) => {
     navigate("/create-workshop", {
-      state: { workshop }, // Kirim data workshop sebagai state
+      state: { workshop },
     });
   };
 
   return (
-    <div className="relative w-full max-w-4xl ml-[-15px] mt-4 px-4">
+    <div className="relative w-full ml-[-15px] mt-4 px-4">
       <div className="flex space-x-8 border-black mt-12 mb-2">
         <button
           onClick={() => setTab("published")}
@@ -92,26 +90,26 @@ const MyWorkshop = () => {
             workshops.map((workshop) => (
               <div
                 key={workshop.submission_id}
-                className="bg-[#FEE4C4] overflow-hidden flex md:flex-row flex-col"
+                className="bg-[#FEE4C4] w-full overflow-hidden flex flex-col md:flex-row mb-4"
               >
-                <div className="w-40 md:w-40 h-full">
+                <div className="w-full md:w-40 h-40">
                   <img
                     src={workshop.image_url || "/img/file-icon.png"}
                     alt={workshop.topic}
-                    className="w-[160px] h-40 object-cover"
+                    className="w-full h-full object-cover"
                   />
                 </div>
                 <div className="flex-1 px-3 py-3 flex flex-col justify-between">
                   <div>
-                    <h3 className="font-bold text-lg font-robotoMono">
+                    <h3 className="font-bold text-lg font-robotoMono sm:text-xl">
                       {workshop.topic}
                     </h3>
                     <p className="text-sm text-gray-700 mt-1">
                       {workshop.description || "No description available."}
                     </p>
                   </div>
-                  <div className="flex justify-between items-center text-sm text-gray-600">
-                    <div className="flex gap-6">
+                  <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-600 sm:text-base">
+                    <div className="flex flex-col md:flex-row gap-6 mb-2 md:mb-0">
                       <span className="flex items-center gap-1">
                         <img
                           src="/img/location.svg"
@@ -154,26 +152,26 @@ const MyWorkshop = () => {
             workshops.map((workshop) => (
               <div
                 key={workshop.submission_id}
-                className="bg-[#FEE4C4] overflow-hidden flex md:flex-row flex-col"
+                className="bg-[#FEE4C4] w-full overflow-hidden flex flex-col md:flex-row mb-4"
               >
-                <div className="w-40 md:w-40 h-full">
+                <div className="w-full md:w-40 h-40">
                   <img
                     src={workshop.image_url || "/img/file-icon.png"}
                     alt={workshop.topic}
-                    className="w-[160px] h-40 object-cover"
+                    className="w-full h-full object-cover"
                   />
                 </div>
                 <div className="flex-1 px-3 py-3 flex flex-col justify-between">
                   <div>
-                    <h3 className="font-bold text-lg font-robotoMono">
+                    <h3 className="font-bold text-lg font-robotoMono sm:text-xl">
                       {workshop.topic}
                     </h3>
                     <p className="text-sm text-gray-700 mt-1">
                       {workshop.description || "No description available."}
                     </p>
                   </div>
-                  <div className="flex justify-between items-center text-sm text-gray-600">
-                    <div className="flex gap-6">
+                  <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-600 sm:text-base">
+                    <div className="flex flex-col md:flex-row gap-6 mb-2 md:mb-0">
                       <span className="flex items-center gap-1">
                         <img
                           src="/img/location.svg"

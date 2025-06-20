@@ -173,41 +173,41 @@ const Settings = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-[#FCEDDA]">
-      <h2 className="text-xl font-bold mb-4">Profile</h2>
-      <p className="mb-4 text-gray-700">
+    <div className="relative w-full max-w-4xl ml-[-15px] mt-4 px-4">
+      <h2 className="text-xl font-bold mb-4 sm:text-2xl">Profile</h2>
+      <p className="mb-4 text-gray-700 sm:text-base">
         This information will be displayed publicly so be careful what you
         share.
       </p>
 
-      <div className="flex items-start gap-6">
+      <div className="flex items-start gap-6 flex-col sm:flex-row space-y-6 sm:space-y-0">
         <div className="flex-shrink-0">
           <div className="relative">
             {profileImage && (
               <img
                 src={profileImage}
                 alt="Profile"
-                className="w-24 h-24 rounded-full object-cover border-4 border-[#FF5126]"
+                className="w-24 h-24 rounded-full object-cover border-4 border-[#FF5126] sm:w-32 sm:h-32"
                 onError={(e) => {
                   e.target.src = "/img/profile.png"; // Fallback jika gambar gagal dimuat
                 }}
               />
             )}
-            <div className="absolute -top-2 -right-2 bg-[#FF5126] text-white rounded-full w-6 h-6 flex items-center justify-center">
+            <div className="absolute -top-2 -right-2 bg-[#FF5126] text-white rounded-full w-6 h-6 flex items-center justify-center sm:w-8 sm:h-8">
               !
             </div>
           </div>
-          <div className="mt-4 flex gap-4">
+          <div className="mt-4 flex gap-4 sm:gap-6">
             <button
               onClick={handleChangePhoto}
-              className="bg-[#FF5126] text-white px-4 py-2 rounded-md text-sm"
+              className="bg-[#FF5126] text-white px-4 py-2 rounded-md text-sm sm:text-base"
             >
               Change
             </button>
             {profileImage && (
               <button
                 onClick={handleRemovePhoto}
-                className="text-red-600 text-sm underline"
+                className="text-red-600 text-sm underline sm:text-base"
               >
                 Remove
               </button>
@@ -223,67 +223,43 @@ const Settings = () => {
         </div>
 
         <div className="flex-1">
-          <h3 className="text-lg font-semibold">
+          <h3 className="text-lg font-semibold sm:text-xl">
             {formData.firstName} {formData.lastName}
           </h3>
-          <p className="text-gray-600">@{formData.username}</p>
-          {/* <button className="mt-2 bg-gray-800 text-white px-4 py-2 rounded-md flex items-center gap-2">
-            <span>Share</span>
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
-              />
-            </svg>
-          </button> */}
-          {/* <div className="grid grid-cols-2 gap-4 mt-4">
-            <div>
-              <p className="text-sm text-gray-500">Workshop Attended</p>
-              <p className="text-lg font-medium">
-                {formData.workshopsAttended}
-              </p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-500">Forum Replies</p>
-              <p className="text-lg font-medium">{formData.forumReplies}</p>
-            </div>
-          </div> */}
+          <p className="text-gray-600 sm:text-base">@{formData.username}</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 sm:gap-8">
         <div>
-          <label className="block mb-1 font-medium text-black">
+          <label className="block mb-1 font-medium text-black sm:text-base">
             First name
           </label>
           <input
             type="text"
             name="firstName"
-            className="w-full border border-gray-400 bg-[#EBDECE] px-4 py-2 rounded-md"
+            className="w-full border border-gray-400 bg-[#EBDECE] px-4 py-2 rounded-md sm:text-base"
             value={formData.firstName}
             onChange={handleChange}
           />
         </div>
         <div>
-          <label className="block mb-1 font-medium text-black">Last name</label>
+          <label className="block mb-1 font-medium text-black sm:text-base">
+            Last name
+          </label>
           <input
             type="text"
             name="lastName"
-            className="w-full border border-gray-400 bg-[#EBDECE] px-4 py-2 rounded-md"
+            className="w-full border border-gray-400 bg-[#EBDECE] px-4 py-2 rounded-md sm:text-base"
             value={formData.lastName}
             onChange={handleChange}
           />
         </div>
         <div className="md:col-span-2">
-          <label className="block mb-1 font-medium text-black">Username</label>
-          <div className="flex items-center border border-gray-400 bg-[#EBDECE] rounded-md px-4 py-2">
+          <label className="block mb-1 font-medium text-black sm:text-base">
+            Username
+          </label>
+          <div className="flex items-center border border-gray-400 bg-[#EBDECE] rounded-md px-4 py-2 sm:text-base">
             <span className="mr-2 text-gray-500">@</span>
             <input
               type="text"
@@ -295,83 +271,89 @@ const Settings = () => {
           </div>
         </div>
         <div className="md:col-span-2 mt-4">
-          <label className="block mb-1 font-medium text-black">About</label>
+          <label className="block mb-1 font-medium text-black sm:text-base">
+            About
+          </label>
           <textarea
             name="about"
-            className="w-full border border-gray-400 bg-[#EBDECE] px-4 py-2 rounded-md"
+            className="w-full border border-gray-400 bg-[#EBDECE] px-4 py-2 rounded-md sm:text-base"
             rows="4"
             value={formData.about}
             onChange={handleChange}
             placeholder="Review Description"
           />
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="text-xs text-gray-500 mt-1 sm:text-sm">
             Brief description for your profile. URLs are hyperlinked.
           </p>
         </div>
       </div>
 
-      <h3 className="text-lg font-semibold mt-6">INTEREST</h3>
-      <div className="flex gap-2 mt-2">
-        <button className="bg-[#FFDEB5] text-black px-3 py-1 rounded-full text-sm">
+      <h3 className="text-lg font-semibold mt-6 sm:text-xl">INTEREST</h3>
+      <div className="flex gap-2 mt-2 flex-wrap sm:gap-4">
+        <button className="bg-[#FFDEB5] text-black px-3 py-1 rounded-full text-sm sm:text-base">
           Pottery
         </button>
-        <button className="bg-[#FFDEB5] text-black px-3 py-1 rounded-full text-sm">
+        <button className="bg-[#FFDEB5] text-black px-3 py-1 rounded-full text-sm sm:text-base">
           Lifestyle & Home
         </button>
-        <button className="bg-[#FFDEB5] text-black px-3 py-1 rounded-full text-sm">
+        <button className="bg-[#FFDEB5] text-black px-3 py-1 rounded-full text-sm sm:text-base">
           Painting
         </button>
       </div>
 
       <div className="mt-10">
-        <h3 className="text-xl font-bold mb-4">Personal Information</h3>
-        <p className="mb-4 text-gray-700">
+        <h3 className="text-xl font-bold mb-4 sm:text-2xl">
+          Personal Information
+        </h3>
+        <p className="mb-4 text-gray-700 sm:text-base">
           This information will be displayed publicly so be careful what you
           share.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
           <div>
-            <label className="block mb-1 font-medium text-black">
+            <label className="block mb-1 font-medium text-black sm:text-base">
               Email Address
             </label>
             <input
               type="email"
               name="email"
-              className="w-full border border-gray-400 bg-[#EBDECE] px-4 py-2 rounded-md"
+              className="w-full border border-gray-400 bg-[#EBDECE] px-4 py-2 rounded-md sm:text-base"
               value={formData.email}
               onChange={handleChange}
             />
           </div>
           <div>
-            <label className="block mb-1 font-medium text-black">
+            <label className="block mb-1 font-medium text-black sm:text-base">
               Phone Number
             </label>
             <input
               type="text"
               name="phone"
-              className="w-full border border-gray-400 bg-[#EBDECE] px-4 py-2 rounded-md"
+              className="w-full border border-gray-400 bg-[#EBDECE] px-4 py-2 rounded-md sm:text-base"
               value={formData.phone}
               onChange={handleChange}
             />
           </div>
           <div>
-            <label className="block mb-1 font-medium text-black">Country</label>
+            <label className="block mb-1 font-medium text-black sm:text-base">
+              Country
+            </label>
             <input
               type="text"
               name="country"
-              className="w-full border border-gray-400 bg-[#EBDECE] px-4 py-2 rounded-md"
+              className="w-full border border-gray-400 bg-[#EBDECE] px-4 py-2 rounded-md sm:text-base"
               value={formData.country}
               onChange={handleChange}
             />
           </div>
           <div>
-            <label className="block mb-1 font-medium text-black">
+            <label className="block mb-1 font-medium text-black sm:text-base">
               Language
             </label>
             <input
               type="text"
               name="language"
-              className="w-full border border-gray-400 bg-[#EBDECE] px-4 py-2 rounded-md"
+              className="w-full border border-gray-400 bg-[#EBDECE] px-4 py-2 rounded-md sm:text-base"
               value={formData.language}
               onChange={handleChange}
             />
@@ -379,28 +361,28 @@ const Settings = () => {
         </div>
       </div>
 
-      <div className="mt-10 flex items-center w-full">
+      <div className="mt-10 flex items-center w-full flex-col sm:flex-row">
         {notification && (
           <div
             className={`ml-0 font-semibold ${
               notification.includes("successfully")
                 ? "text-green-600"
                 : "text-red-600"
-            }`}
+            } sm:ml-auto`}
           >
             {notification}
           </div>
         )}
-        <div className="flex gap-6 ml-auto">
+        <div className="flex gap-6 ml-auto mt-4 sm:mt-0">
           <button
             onClick={handleCancel}
-            className="bg-[#FFDEB5] text-black rounded-md px-6 py-2 text-sm"
+            className="bg-[#FFDEB5] text-black rounded-md px-6 py-2 text-sm sm:text-base"
           >
             Cancel
           </button>
           <button
             onClick={handleUpdate}
-            className="bg-[#FF5126] rounded-md text-white px-6 py-2 text-sm"
+            className="bg-[#FF5126] rounded-md text-white px-6 py-2 text-sm sm:text-base"
           >
             Update
           </button>

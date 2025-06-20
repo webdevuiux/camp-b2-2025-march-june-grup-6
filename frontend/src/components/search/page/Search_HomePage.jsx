@@ -10,6 +10,7 @@ import NewWorkshopsSection from "../components/NewWorkshopsSection";
 import Footer from "../components/Footer";
 import WorkshopCard from "../components/WorkshopCard";
 
+
 const Search_HomePage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchLocation, setSearchLocation] = useState("");
@@ -90,15 +91,15 @@ const Search_HomePage = () => {
   ];
 
   return (
-    <div className="bg-[#FCEDDA] pt-1.5">
+    <div className="bg-[#FCEDDA] pt-1.5 max-md:pt-1">
       <div className="flex w-full flex-col items-center px-[50px] max-md:max-w-full max-md:px-5">
         <SearchHeader />
         <TiketKaryaLogo />
 
-        <SearchBar className="mt-[30px]" onSearch={handleSearch} />
+        <SearchBar className="mt-[30px] max-md:mt-5" onSearch={handleSearch} />
 
         <div className="w-full max-w-[1205px] mt-[60px] max-md:max-w-full max-md:mt-10">
-          <div className="gap-5 flex max-md:flex-col max-md:items-stretch">
+          <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-2">
             {/* Sidebar Filter */}
             <div className="w-[24%] max-md:w-full max-md:ml-0">
               <FilterSidebar onApplyFilters={handleApplyFilters} />
@@ -121,12 +122,14 @@ const Search_HomePage = () => {
           title="Explore by category"
           categories={categories}
           onCategoryClick={handleCategoryClick}
+          className="max-md:mt-5"
         />
 
         <RecommendedSection
           title="Recommended for You"
           onJoin={handleJoinWorkshop}
           onToggleFavorite={handleToggleFavorite}
+          className="max-md:mt-5"
         />
 
         <NewWorkshopsSection
@@ -134,10 +137,11 @@ const Search_HomePage = () => {
           location={searchLocation}
           onJoin={handleJoinWorkshop}
           onToggleFavorite={handleToggleFavorite}
+          className="max-md:mt-5"
         />
       </div>
 
-      <Footer />
+      <Footer className="max-md:mt-5" />
     </div>
   );
 };
