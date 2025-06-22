@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 
 const UploadCover = ({ data, onChange }) => {
   const [coverImage, setCoverImage] = useState(data.image || null);
@@ -6,15 +6,11 @@ const UploadCover = ({ data, onChange }) => {
   const API_BASE_URL =
     process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 
-  useEffect(() => {
-    onChange({ image: coverImage });
-  }, [coverImage, onChange]);
-
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (file && file.type.startsWith("image/")) {
       const formData = new FormData();
-      formData.append("image", file);
+      formData.append("image", file); // 'image' adalah key yang diharapkan backend
 
       try {
         const response = await fetch(`${API_BASE_URL}/api/workshops/upload`, {
@@ -24,14 +20,24 @@ const UploadCover = ({ data, onChange }) => {
           },
           body: formData,
         });
+
+        if (!response.ok) {
+          // Menangani error dari server dengan lebih baik
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Server error during upload.");
+        }
+        
         const result = await response.json();
         if (result.imageUrl) {
           setCoverImage(result.imageUrl);
+          // Langsung beri tahu parent (CreateWorkshopPage) tentang URL baru
+          onChange({ image: result.imageUrl }); 
         } else {
-          alert("Failed to upload image");
+          alert("Failed to upload image. Server did not return an image URL.");
         }
       } catch (err) {
-        alert("Error uploading image");
+        console.error("Upload error:", err);
+        alert(`Error uploading image: ${err.message}`);
       }
     } else {
       alert("Please select an image file.");
@@ -40,6 +46,8 @@ const UploadCover = ({ data, onChange }) => {
 
   const handleRemove = () => {
     setCoverImage(null);
+    // Beri tahu parent bahwa gambar telah dihapus
+    onChange({ image: null }); 
     if (fileInputRef.current) {
       fileInputRef.current.value = null;
     }
@@ -62,8 +70,10 @@ const UploadCover = ({ data, onChange }) => {
       <div className="border border-dashed border-gray-400 p-4 sm:p-6 rounded-md min-h-[200px] sm:min-h-[300px] flex items-center justify-center">
         {coverImage ? (
           <div className="flex flex-col w-full">
+            {/* DIPERBAIKI: Menggabungkan URL dasar dari .env dengan path gambar dari server */}
+            {/* Ini adalah solusi inti untuk masalah hosting Anda */}
             <img
-              src={coverImage}
+              src={`${API_BASE_URL}${coverImage}`}
               alt="Cover"
               className="w-full max-h-[200px] sm:max-h-[300px] object-contain mb-4"
             />
@@ -96,13 +106,16 @@ const UploadCover = ({ data, onChange }) => {
             <div className="text-gray-500 text-xs sm:text-sm mb-4">
               No cover uploaded yet.
             </div>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              ref={fileInputRef}
-              className="text-xs sm:text-sm"
-            />
+            <label className="bg-[#FF5126] text-white px-5 py-2 text-sm sm:text-base rounded-[8px] cursor-pointer">
+              Upload Image
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                ref={fileInputRef}
+                className="hidden"
+              />
+            </label>
           </div>
         )}
       </div>

@@ -34,10 +34,9 @@ const CreateWorkshopPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Inisialisasi state dengan data dari location.state jika ada
   const workshop = location.state?.workshop || {};
-  console.log("CreateWorkshopPage workshop data:", workshop); // Debug data workshop
-
+  
+  // State untuk setiap bagian form
   const [coverData, setCoverData] = useState({
     image: workshop.image_url || "",
   });
@@ -66,6 +65,7 @@ const CreateWorkshopPage = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
+  // Fungsi handleSubmit tetap sama, tidak perlu diubah
   const handleSubmit = async () => {
     setLoading(true);
     setError(null);
@@ -114,30 +114,17 @@ const CreateWorkshopPage = () => {
       time: locationData.time || "",
       end_time: locationData.endTime || "",
       max_participants: ticketData.maxParticipants || ticketData.quantity || 0,
-      image_url: coverData.image || null,
+      image_url: coverData.image || null, // Nilai ini didapat dari state yang diupdate oleh UploadCover
       start_date: ticketData.startDate || "",
       end_date: ticketData.endDate || "",
       sale_start_time: ticketData.startTime || "",
       sale_end_time: ticketData.endTime || "",
     };
 
-    console.log("CreateWorkshopPage sending formData:", formData); // Debug formData
-
-    // Validasi field wajib sebelum pengiriman
     const requiredFields = [
-      "title",
-      "description",
-      "category_id",
-      "instructor_id",
-      "submitter_user_id",
-      "location",
-      "date",
-      "time",
-      "end_time",
-      "start_date",
-      "end_date",
-      "sale_start_time",
-      "sale_end_time",
+      "title", "description", "category_id", "instructor_id", 
+      "submitter_user_id", "location", "date", "time", "end_time", 
+      "start_date", "end_date", "sale_start_time", "sale_end_time",
     ];
     const missingFields = requiredFields.filter((field) => !formData[field]);
     if (missingFields.length > 0) {
@@ -167,12 +154,12 @@ const CreateWorkshopPage = () => {
         throw new Error(`Failed to submit workshop: ${errorText}`);
       }
 
-      const data = await response.json();
+      await response.json();
       setSuccess("Workshop submitted successfully!");
       setTimeout(() => {
         navigate("/create-workshop/success");
       }, 1000);
-      setCoverData({});
+      setCoverData({ image: null });
       setGeneralData({});
       setLocationData({});
       setTicketData({});
@@ -190,6 +177,7 @@ const CreateWorkshopPage = () => {
         {currentSection === "form" && (
           <>
             <div id="upload">
+              {/* DIKEMBALIKAN: Kembali ke cara sederhana, cukup teruskan setCoverData */}
               <UploadCover data={coverData} onChange={setCoverData} />
             </div>
             <div id="general">

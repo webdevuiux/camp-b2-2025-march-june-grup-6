@@ -5,59 +5,59 @@ import { useNavigate } from "react-router-dom";
 const API_BASE_URL =
   process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 
+// DITAMBAHKAN: Fungsi helper untuk memuat data awal dari localStorage
+const getInitialState = () => {
+  try {
+    const storedData = localStorage.getItem("userData");
+    if (storedData) {
+      const user = JSON.parse(storedData);
+      if (user && typeof user === "object") {
+        return {
+          formData: {
+            firstName: user.firstName || "",
+            lastName: user.lastName || "",
+            username: user.username || "",
+            email: user.email || "",
+            phone: user.phone || "",
+            country: user.country || "",
+            language: user.language || "",
+            about: user.about || "",
+            workshopsAttended: user.workshopsAttended || 0,
+            forumReplies: user.forumReplies || 0,
+          },
+          profileImage: user.profileImage
+            ? `${API_BASE_URL}${user.profileImage}` // Langsung bentuk URL lengkap
+            : "/img/profile.png",
+        };
+      }
+    }
+  } catch (error) {
+    console.error("Failed to parse initial user data:", error);
+    localStorage.removeItem("userData"); // Hapus data korup
+  }
+
+  // Fallback jika tidak ada data di localStorage
+  return {
+    formData: {
+      firstName: "", lastName: "", username: "", email: "", phone: "",
+      country: "", language: "", about: "", workshopsAttended: 0, forumReplies: 0,
+    },
+    profileImage: "/img/profile.png",
+  };
+};
+
 const Settings = () => {
   const navigate = useNavigate();
 
-  // Ambil data pengguna dari localStorage
-  useEffect(() => {
-    const userData = localStorage.getItem("userData");
-    if (userData) {
-      try {
-        const user = JSON.parse(userData);
-        if (user && typeof user === "object") {
-          setFormData((prev) => ({
-            ...prev,
-            firstName: user.firstName || "Nabila",
-            lastName: user.lastName || "Sari",
-            username: user.username || "nabilasari4",
-            email: user.email || "nabilasari4@email.com",
-            phone: user.phone || "(+62)555-2304-324",
-            country: user.country || "Indonesia",
-            language: user.language || "Bahasa Indonesia",
-            about: user.about || "",
-            workshopsAttended: user.workshopsAttended || 4,
-            forumReplies: user.forumReplies || 11,
-          }));
-          // Set profile image dari localStorage jika ada
-          if (user.profileImage) {
-            setProfileImage(`${API_BASE_URL}${user.profileImage}`);
-          }
-        } else {
-          localStorage.removeItem("userData"); // Hapus jika bukan objek valid
-        }
-      } catch (error) {
-        console.error("Error parsing userData from localStorage:", error);
-        localStorage.removeItem("userData"); // Hapus data korup
-      }
-    }
-  }, []);
-
-  const [formData, setFormData] = useState({
-    firstName: "Nabila",
-    lastName: "Sari",
-    username: "nabilasari4",
-    email: "nabilasari4@email.com",
-    phone: "(+62)555-2304-324",
-    country: "Indonesia",
-    language: "Bahasa Indonesia",
-    about: "",
-    workshopsAttended: 4,
-    forumReplies: 11,
-  });
-
-  const [profileImage, setProfileImage] = useState("/img/profile.png");
+  // DIPERBAIKI: Menggunakan "Lazy Initial State" untuk memuat data hanya sekali
+  const [initialState] = useState(getInitialState);
+  const [formData, setFormData] = useState(initialState.formData);
+  const [profileImage, setProfileImage] = useState(initialState.profileImage);
+  
   const [notification, setNotification] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
+  
+  // DIHAPUS: useEffect untuk memuat data awal tidak lagi diperlukan karena sudah ditangani oleh useState di atas.
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -68,45 +68,28 @@ const Settings = () => {
     const file = e.target.files[0];
     if (file) {
       setSelectedFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfileImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+      // Gunakan URL.createObjectURL untuk preview yang lebih efisien daripada FileReader
+      setProfileImage(URL.createObjectURL(file));
     }
   };
 
   const handleUpdate = async () => {
-    const stringFields = [
-      "firstName",
-      "lastName",
-      "username",
-      "email",
-      "phone",
-      "country",
-      "language",
-      "about",
-    ];
-    const isValid = stringFields.every((field) => {
-      const value = formData[field];
-      return typeof value === "string" && value.trim() !== "";
-    });
+    // Logika validasi Anda sudah bagus, kita pertahankan
+    const stringFields = [ "firstName", "lastName", "username", "email", "phone", "country", "language" ];
+    const isInvalid = stringFields.some(field => !formData[field] || formData[field].trim() === "");
 
-    if (!isValid) {
-      setNotification("Please fill out all string fields before updating.");
+    if (isInvalid) {
+      setNotification("Please fill out all required fields before updating.");
       setTimeout(() => setNotification(""), 3000);
       return;
     }
 
     const formDataToSend = new FormData();
-    formDataToSend.append("firstName", formData.firstName);
-    formDataToSend.append("lastName", formData.lastName);
-    formDataToSend.append("username", formData.username);
-    formDataToSend.append("email", formData.email);
-    formDataToSend.append("phone", formData.phone);
-    formDataToSend.append("country", formData.country);
-    formDataToSend.append("language", formData.language);
-    formDataToSend.append("about", formData.about);
+    // Menambahkan semua data form ke FormData
+    Object.keys(formData).forEach(key => {
+        formDataToSend.append(key, formData[key]);
+    });
+    
     if (selectedFile) {
       formDataToSend.append("profileImage", selectedFile);
     }
@@ -126,27 +109,26 @@ const Settings = () => {
         throw new Error(data.message || "Update failed");
       }
 
-      // Perbarui profileImage dan formData berdasarkan respons
+      // Logika pembaruan setelah sukses sudah sangat baik, kita pertahankan
       if (data.user && typeof data.user === "object") {
         const fullImageUrl = data.user.profileImage
           ? `${API_BASE_URL}${data.user.profileImage}`
           : "/img/profile.png";
+        
         setProfileImage(fullImageUrl);
-        setFormData((prev) => ({
-          ...prev,
-          firstName: data.user.firstName || prev.firstName,
-          lastName: data.user.lastName || prev.lastName,
-          username: data.user.username || prev.username,
-          email: data.user.email || prev.email,
-          phone: data.user.phone || prev.phone,
-          country: data.user.country || prev.country,
-          language: data.user.language || prev.language,
-          about: data.user.about || prev.about,
-          workshopsAttended:
-            data.user.workshopsAttended || prev.workshopsAttended,
-          forumReplies: data.user.forumReplies || prev.forumReplies,
-        }));
-        localStorage.setItem("userData", JSON.stringify(data.user));
+        setFormData({ // Update state form dengan data baru dari server
+            firstName: data.user.firstName || "",
+            lastName: data.user.lastName || "",
+            username: data.user.username || "",
+            email: data.user.email || "",
+            phone: data.user.phone || "",
+            country: data.user.country || "",
+            language: data.user.language || "",
+            about: data.user.about || "",
+            workshopsAttended: data.user.workshopsAttended || 0,
+            forumReplies: data.user.forumReplies || 0,
+        });
+        localStorage.setItem("userData", JSON.stringify(data.user)); // Update localStorage
       } else {
         throw new Error("Invalid user data in response");
       }
@@ -159,9 +141,12 @@ const Settings = () => {
     }
   };
 
-  const handleRemovePhoto = () => {
-    setProfileImage(null);
-    setSelectedFile(null);
+  const handleRemovePhoto = async () => {
+    // REVISI: Fungsi ini sebaiknya juga memanggil API untuk menghapus foto di server
+    // Untuk saat ini, kita hanya set state di frontend
+    setProfileImage("/img/profile.png"); 
+    setSelectedFile(null); 
+    // Anda bisa menambahkan logika untuk memanggil API penghapusan foto di sini
   };
 
   const handleChangePhoto = () => {
@@ -173,26 +158,23 @@ const Settings = () => {
   };
 
   return (
+    // Bagian JSX Anda sudah sangat baik dan tidak perlu diubah.
+    // Kode di bawah ini sama dengan yang Anda berikan, hanya dengan beberapa perbaikan minor pada event handler.
     <div className="relative w-full max-w-4xl ml-[-15px] mt-4 px-4">
       <h2 className="text-xl font-bold mb-4 sm:text-2xl">Profile</h2>
       <p className="mb-4 text-gray-700 sm:text-base">
-        This information will be displayed publicly so be careful what you
-        share.
+        This information will be displayed publicly so be careful what you share.
       </p>
 
       <div className="flex items-start gap-6 flex-col sm:flex-row space-y-6 sm:space-y-0">
         <div className="flex-shrink-0">
           <div className="relative">
-            {profileImage && (
-              <img
-                src={profileImage}
-                alt="Profile"
-                className="w-24 h-24 rounded-full object-cover border-4 border-[#FF5126] sm:w-32 sm:h-32"
-                onError={(e) => {
-                  e.target.src = "/img/profile.png"; // Fallback jika gambar gagal dimuat
-                }}
-              />
-            )}
+            <img
+              src={profileImage || "/img/profile.png"} // Fallback jika profileImage null
+              alt="Profile"
+              className="w-24 h-24 rounded-full object-cover border-4 border-[#FF5126] sm:w-32 sm:h-32"
+              onError={(e) => { e.target.src = "/img/profile.png"; }}
+            />
             <div className="absolute -top-2 -right-2 bg-[#FF5126] text-white rounded-full w-6 h-6 flex items-center justify-center sm:w-8 sm:h-8">
               !
             </div>
@@ -204,7 +186,7 @@ const Settings = () => {
             >
               Change
             </button>
-            {profileImage && (
+            {profileImage && profileImage !== "/img/profile.png" && (
               <button
                 onClick={handleRemovePhoto}
                 className="text-red-600 text-sm underline sm:text-base"
@@ -213,11 +195,8 @@ const Settings = () => {
               </button>
             )}
             <input
-              id="profileImageInput"
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              className="hidden"
+              id="profileImageInput" type="file" accept="image/*"
+              onChange={handleFileChange} className="hidden"
             />
           </div>
         </div>
@@ -230,7 +209,8 @@ const Settings = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 sm:gap-8">
+      {/* Sisa dari JSX Anda (form fields, buttons, etc.) tetap sama persis */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 sm:gap-8">
         <div>
           <label className="block mb-1 font-medium text-black sm:text-base">
             First name

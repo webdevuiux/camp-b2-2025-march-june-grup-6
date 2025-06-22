@@ -6,7 +6,9 @@ const GeneralInformation = ({ data, onChange }) => {
     description: data.description || "",
     category: data.category || "",
   });
-  const [albumImages, setAlbumImages] = useState([]);
+  
+  // DIPERBAIKI: State ini sekarang akan menyimpan path gambar dari server, bukan blob URL
+  const [albumImages, setAlbumImages] = useState([]); 
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [categories, setCategories] = useState([]);
   const [loadingCategories, setLoadingCategories] = useState(true);
@@ -26,7 +28,6 @@ const GeneralInformation = ({ data, onChange }) => {
           throw new Error("Failed to fetch categories");
         }
         const data = await response.json();
-        console.log("Fetched categories:", data);
         setCategories(data);
 
         if (
@@ -47,19 +48,56 @@ const GeneralInformation = ({ data, onChange }) => {
     };
 
     fetchCategories();
-  }, []);
+  }, []); // Bergantung pada dependensi kosong, jadi hanya berjalan sekali. Ini benar.
 
+  // DIPERBAIKI: useEffect ini sekarang juga akan mengirimkan data albumImages
   useEffect(() => {
-    onChange(formData);
-  }, [formData, onChange]);
+    // Menggabungkan formData dengan albumImages saat melapor ke parent
+    onChange({ ...formData, album_images: albumImages });
+  }, [formData, albumImages, onChange]); // DITAMBAHKAN: albumImages sebagai dependensi
 
-  const handleAlbumUpload = (e) => {
+  // DIPERBAIKI: Fungsi ini sekarang akan mengunggah file ke server
+  const handleAlbumUpload = async (e) => {
     const files = Array.from(e.target.files);
-    const imageUrls = files.map((file) => URL.createObjectURL(file));
-    setAlbumImages((prev) => [...prev, ...imageUrls]);
+    if (files.length === 0) return;
+
+    const uploadFormData = new FormData();
+    files.forEach((file) => {
+      uploadFormData.append("images", file); // 'images' untuk multiple files
+    });
+
+    try {
+      // Pastikan backend Anda memiliki endpoint yang bisa menangani multiple upload
+      // Contoh: /api/upload/multiple
+      const response = await fetch(`${API_BASE_URL}/api/upload/multiple`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: uploadFormData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to upload album images.");
+      }
+      
+      const result = await response.json(); // Asumsi backend mengembalikan { imageUrls: ['/path1', '/path2'] }
+      
+      if (result.imageUrls && result.imageUrls.length > 0) {
+        setAlbumImages((prev) => [...prev, ...result.imageUrls]);
+      } else {
+        alert("Server did not return any image URLs.");
+      }
+
+    } catch (err) {
+      console.error("Album upload error:", err);
+      alert(`Error uploading album: ${err.message}`);
+    }
   };
 
   const handleDeleteImage = (indexToDelete) => {
+    // Cukup hapus dari state, perubahan akan otomatis dikirim ke parent via useEffect
     setAlbumImages((prev) => prev.filter((_, idx) => idx !== indexToDelete));
   };
 
@@ -126,13 +164,9 @@ const GeneralInformation = ({ data, onChange }) => {
           </p>
           <div className="relative">
             {loadingCategories ? (
-              <p className="text-xs sm:text-sm text-gray-600">
-                Loading categories...
-              </p>
+              <p>Loading categories...</p>
             ) : errorCategories ? (
-              <p className="text-xs sm:text-sm text-red-500">
-                {errorCategories}
-              </p>
+              <p className="text-red-500">{errorCategories}</p>
             ) : (
               <select
                 value={formData.category}
@@ -142,39 +176,26 @@ const GeneralInformation = ({ data, onChange }) => {
                 className="appearance-none w-full border border-black rounded px-10 sm:px-12 py-2 sm:py-3 bg-[#E8DCCF] text-sm sm:text-base text-gray-800 cursor-pointer"
                 required
               >
-                {categories.length === 0 ? (
-                  <option value="">No categories available</option>
-                ) : (
-                  categories.map((category) => (
-                    <option key={category.id} value={category.name}>
-                      {category.name}
-                    </option>
-                  ))
-                )}
+                {categories.map((category) => (
+                  <option key={category.id} value={category.name}>
+                    {category.name}
+                  </option>
+                ))}
               </select>
             )}
+             {/* Icon-icon di dalam select box tetap dipertahankan */}
             <div className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2">
-              <img
-                src="/img/icon_home.svg"
-                alt="Home Icon"
-                className="w-4 h-4 sm:w-5 sm:h-5"
-              />
+              <img src="/img/icon_home.svg" alt="Home Icon" className="w-4 h-4 sm:w-5 sm:h-5"/>
             </div>
             <div className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 pointer-events-none">
-              <img
-                src="/img/icon_arrow_down.svg"
-                alt="Arrow Down"
-                className="w-3 h-3 sm:w-4 sm:h-4"
-              />
+              <img src="/img/icon_arrow_down.svg" alt="Arrow Down" className="w-3 h-3 sm:w-4 sm:h-4"/>
             </div>
           </div>
         </div>
 
         {/* Album */}
         <div>
-          <label className="block text-xl sm:text-2xl font-bold mb-1">
-            Album
-          </label>
+          <label className="block text-xl sm:text-2xl font-bold mb-1">Album</label>
           <p className="text-xs sm:text-sm text-gray-700 mb-2">
             Upload images for your workshop
           </p>
@@ -196,8 +217,9 @@ const GeneralInformation = ({ data, onChange }) => {
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
               >
+                {/* DIPERBAIKI: Menampilkan preview dengan URL lengkap */}
                 <img
-                  src={url}
+                  src={`${API_BASE_URL}${url}`}
                   alt={`Album ${index}`}
                   className="w-full h-full object-cover"
                 />
@@ -208,19 +230,8 @@ const GeneralInformation = ({ data, onChange }) => {
                     aria-label="Delete image"
                     type="button"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-3 w-3 sm:h-4 sm:w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6 18L18 6M6 6l12 12"
-                      />
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 sm:h-4 sm:w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                   </button>
                 )}
